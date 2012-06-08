@@ -1,0 +1,8 @@
+name    'brightbox-apt'
+version '1.0.0'
+source ''
+author 'brightbox'
+license 'GPL3'
+summary 'Ubuntu apt package management configuration'
+description 'Ubuntu apt package management configuration. Most likely much like the other apt modules available, but battle-tested by Brightbox (and has a couple of neat features).'
+project_page 'https://github.com/brightbox/puppet'
