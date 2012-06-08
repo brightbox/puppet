@@ -14,6 +14,40 @@ class apt {
   Exec["apt-update"] -> Package <| |>
 }
 
+# Sets up a local apt repository, ready for using with apt::localpackage
+class apt::localrepo($repodir = "/var/cache/local-repo") {
+  package { "dpkg-dev":
+    ensure => installed
+  }
+  file { "${repodir}":
+    ensure => directory,
+    mode => 755
+  }
+  exec { "apt-update-local-repo":
+    cwd => $repodir,
+    command => "/usr/bin/dpkg-scanpackages . > Packages",
+    require => [Package["dpkg-dev"], File["${repodir}"]],
+    refreshonly => true
+  }
+  apt::source { "apt-local-repo":
+    source => "deb [trusted=yes] file:${repodir} /"
+  }
+}
+
+# Defines a deb package to download and put into the local apt repository.
+# Requires that you set a url
+define apt::localpackage($url = "", $repodir = "/var/cache/local-repo") {
+  $url_tokens = split($url, '/')
+  $pkg_filename = $url_tokens[-1]
+  exec { "apt-localpackage-${name}":
+    command => "/usr/bin/curl -L -s -C - -O $url",
+    cwd => $repodir,
+    creates => "${repodir}/${pkg_filename}",
+    notify => Exec["apt-update-local-repo"],
+    require => File[$repodir]
+  }
+}
+
 # $name is arbitrary. attribute "ppa" should be the ppa name, such as
 # "brightbox/ruby-ng" (this is due to a bug in puppet with resources
 # with slashes in them)
