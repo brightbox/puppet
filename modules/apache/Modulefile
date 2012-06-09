@@ -1,0 +1,8 @@
+name    'brightbox-apache'
+version '1.0.0'
+source ''
+author 'brightbox'
+license 'GPL3'
+summary 'Apache management'
+description 'Support for modules, sites, php, passenger, modsecurity and java'
+project_page 'https://github.com/brightbox/puppet'
