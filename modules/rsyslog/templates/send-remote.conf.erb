@@ -1,0 +1,10 @@
+<% remote_servers.split(/[, ]+/).each do |ip| %>
+$WorkDirectory /var/spool/rsyslog # where to place spool files
+$ActionQueueFileName remote_server_<%= ip %> # unique name prefix for spool files
+$ActionQueueMaxDiskSpace 200m   # 1gb space limit (use as much as possible)
+$ActionQueueSaveOnShutdown on # save messages to disk on shutdown
+$ActionQueueType LinkedList   # run asynchronously
+$ActionResumeRetryCount -1    # infinite retries if host is down
+# remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
+*.* @@<%= ip %>
+<% end %>

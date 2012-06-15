@@ -1,0 +1,8 @@
+name    'brightbox-rsyslog'
+version '1.0.0'
+source ''
+author 'brightbox'
+license 'GPL3'
+summary 'Ubuntu rsyslog management'
+description 'Support for relaying logs to remote servers, listening on tcp or udp, and per host local log files'
+project_page 'https://github.com/brightbox/puppet'

@@ -1,0 +1,12 @@
+/var/log/by-host/*.log {
+  rotate 78
+  weekly
+	missingok
+  notifempty
+  compress
+  sharedscripts
+  dateext
+	postrotate
+		reload rsyslog >/dev/null 2>&1 || true
+	endscript
+}
