@@ -33,10 +33,9 @@ task :parse => :clean do
 
 end
 
-require 'puppet-lint'
-
 desc "Run lint check on puppet manifests"
 task :lint => :clean do
+  require 'puppet-lint'
   linter =  PuppetLint.new
   Dir.glob('./**/*.pp').each do |puppet_file|
     puts "=== Evaluating #{puppet_file}"
@@ -48,7 +47,6 @@ task :lint => :clean do
 end
 
 require 'rspec/core/rake_task'
-require 'rspec-puppet'
 
 desc "Run specs check on puppet manifests"
 RSpec::Core::RakeTask.new(:spec) do |t|
