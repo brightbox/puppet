@@ -8,29 +8,28 @@ class apt {
   # Ensure apt is setup before running apt-get update
   Apt::Ppa <| |> -> Exec["apt-update"]
   Apt::Key <| |> -> Exec["apt-update"]
-  Apt::Source <| |> -> Exec["apt-update"]
 
   # Ensure apt-get update has been run before installing any packages
+  # though exclude dpkg-dev package which apt::localrepo needs installed!
   Exec["apt-update"] -> Package <| |>
 }
 
 # Sets up a local apt repository, ready for using with apt::localpackage
 class apt::localrepo($repodir = "/var/cache/local-repo") {
-  package { "dpkg-dev":
-    ensure => installed
-  }
   file { "${repodir}":
     ensure => directory,
-    mode => 755
+    mode => 755,
+    notify => Exec[apt-update-local-repo]
   }
   exec { "apt-update-local-repo":
     cwd => $repodir,
-    command => "/usr/bin/dpkg-scanpackages . > Packages",
-    require => [Package["dpkg-dev"], File["${repodir}"]],
+    command => "/usr/bin/apt-ftparchive packages . > Packages",
+    require => [File["${repodir}"]],
+    before => Exec["apt-update"],
     refreshonly => true
   }
   apt::source { "apt-local-repo":
-    source => "deb [trusted=yes] file:${repodir} /"
+    source => "deb [trusted=yes] file:${repodir} /",
   }
 }
 
