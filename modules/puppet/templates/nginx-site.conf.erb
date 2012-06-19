@@ -1,0 +1,37 @@
+server {
+    listen                     8140;
+    root                       /usr/share/puppet/rack/puppetmasterd/public;
+    passenger_enabled          on;
+    passenger_use_global_queue on;
+    access_log                 /var/log/nginx/puppetmaster.log;
+    default_type               application/octet-stream;
+
+    sendfile        on;
+    tcp_nopush      on;
+
+    large_client_header_buffers     16      64k;
+    proxy_buffers                   128     4k;
+
+    keepalive_timeout  65;
+    tcp_nodelay        on;
+
+    ssl                        on;
+    ssl_certificate            /var/lib/puppet/ssl/certs/<%= certificate_name %>;
+    ssl_certificate_key        /var/lib/puppet/ssl/private_keys/<%= certificate_name %>;
+    ssl_client_certificate     /var/lib/puppet/ssl/certs/ca.pem;
+    ssl_protocols              SSLv3 TLSv1;
+    ssl_verify_depth           1;
+    ssl_prefer_server_ciphers  on;
+#    ssl_ciphers                SSLv2:-LOW:-EXPORT:RC4+RSA;
+    ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_session_cache          shared:SSL:8m;
+    ssl_session_timeout        5m;
+    ssl_verify_client          optional;
+    ssl_crl                    /var/lib/puppet/ssl/ca/ca_crl.pem;
+
+    passenger_set_cgi_param    SSL_CLIENT_VERIFY  $ssl_client_verify;
+    passenger_set_cgi_param    SSL_CLIENT_S_DN    $ssl_client_s_dn;
+    passenger_set_cgi_param    SSL_CLIENT_S_DN    $ssl_client_s_dn;
+    passenger_set_cgi_param    SSL_CLIENT_I_DN    $ssl_client_i_dn;
+
+}

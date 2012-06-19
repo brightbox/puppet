@@ -1,0 +1,17 @@
+# This file is managed by puppet
+[files]
+  path /etc/puppet/files
+<% fileserver_access.each do |ip| %>
+  allow <%= ip %>
+<% end %>
+
+[plugins]
+  path /etc/puppet/plugins
+<% fileserver_access.each do |ip| %>
+  allow <%= ip %>
+<% end %>
+
+[modules]
+<% fileserver_access.each do |ip| %>
+  allow <%= ip %>
+<% end %>

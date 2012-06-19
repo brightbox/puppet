@@ -1,0 +1,35 @@
+# This file is managed by puppet
+[main]
+logdir=/var/log/puppet
+vardir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/var/run/puppet
+factpath=$vardir/lib/facter
+templatedir=$confdir/templates
+prerun_command=/etc/puppet/etckeeper-commit-pre
+postrun_command=/etc/puppet/etckeeper-commit-post
+# This is the default environment for all clients
+environment=production
+
+[master]
+# These are needed when the puppetmaster is run by passenger
+# and can safely be removed if webrick is used.
+ssl_client_header = SSL_CLIENT_S_DN
+ssl_client_verify_header = SSL_CLIENT_VERIFY
+templatedir = /etc/puppet/$environment/templates
+modulepath  = /etc/puppet/$environment/modules/
+manifest    = /etc/puppet/$environment/manifests/site.pp
+manifestdir = /etc/puppet/$environment/manifests
+#reports = http, store
+#reporturl = https://localhost:8141/reports/upload
+
+environments=production,staging
+storeconfigs = <%= store_configs ? "true" : "false" %>
+dbadapter = <%= db_adapter %> 
+dbuser = <%= db_user %>
+dbpassword = <%= db_password %>
+dbserver = <%= db_server %>
+
+[staging]
+
+[production]
