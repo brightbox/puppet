@@ -19,3 +19,20 @@ describe 'puppet::master', :type => :class do
     with_content(/allow 172.5.0.0\/16/)
   }
 end
+
+describe 'puppet::master::apache', :type => :class do
+  let(:params) { { :certificate_name => '@@certname' } }
+
+  it { should contain_apache__site('puppetmaster').
+     with_content(/@@certname/)
+  }
+end
+
+describe 'puppet::master::standalone', :type => :class do
+  let(:params) { { :certificate_name => '@@certname' } }
+
+  it { should contain_apache__site('puppetmaster').
+     with_content(/@@certname/)
+  }
+end
+

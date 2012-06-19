@@ -52,10 +52,8 @@ class puppet::client($enable = true, $puppet_server = "") {
 #
 # 
 class puppet::master($store_configs = false, $db_server = "", $db_user = "", $db_password = "", $db_adapter = "", $fileserver_access = [], $certificate_name = "${fqdn}.pem") {
-
-  $gitrepo = "/var/lib/puppet/puppet.git"
   
-  package { ["puppetmaster", "puppetmaster-passenger"]:
+  package { "puppetmaster":
     ensure => latest
   }
 
@@ -97,6 +95,41 @@ class puppet::master($store_configs = false, $db_server = "", $db_user = "", $db
     require => File["/etc/puppet"]
   }
 
+}
+
+# puppetmaster apache server
+class puppet::master::apache($certificate_name = "") {
+
+  package { "puppetmaster-passenger":
+    ensure => installed
+  }
+  package { "rubygems": ensure => installed }
+
+  class { "::apache":
+    http_ports => [8140]
+  }
+  class { "apache::passenger":
+    instances_per_app => 4,
+    idle_time => 0,
+    pool_size => 8,
+    stat_throttle_rate => 120,
+    min_instances => 2
+  }
+
+  apache::site { "puppetmaster":
+    content => template("puppet/master-apache.conf.erb")
+  }
+}
+
+# puppetmaster nginx server
+class puppet::master::nginx($certificate_name = "") {
+
+  package { "puppetmaster-passenger":
+    ensure => installed
+  }
+
+  package { "rubygems": ensure => installed }
+
   # FIXME: should use proper nginx class once we provide one!
   apt::ppa { "nginx": ppa => "brightbox/passenger-nginx" }
   
@@ -112,8 +145,6 @@ class puppet::master($store_configs = false, $db_server = "", $db_user = "", $db
     hasrestart => true
   }
 
-  package { "rubygems": ensure => installed }
-
   file { "/etc/nginx/sites-enabled/puppetmaster":
     ensure => file,
     content => template("puppet/nginx-site.conf.erb"),
@@ -127,6 +158,14 @@ class puppet::master($store_configs = false, $db_server = "", $db_user = "", $db
     require => Package[nginx],
     notify => Service[nginx]
   }
+
+}
+
+# Setup a git repository thay auto-deploys the staging and production
+# stage modules and manifests on post-receive
+class puppet::master::git {
+
+  $gitrepo = "/var/lib/puppet/puppet.git"
 
   package { "git-core": ensure => installed }
 
@@ -146,4 +185,25 @@ class puppet::master($store_configs = false, $db_server = "", $db_user = "", $db
     require => Exec["init-puppet-repo"]
   }
       
+}
+
+# one class that gives you everything you need for a neat apache-based
+# puppetmaster server
+#
+class puppet::master::standalone($store_configs = false, $db_server = "", $db_user = "", $db_password = "", $db_adapter = "", $fileserver_access = [], $certificate_name = "${fqdn}.pem") {
+
+  include apt
+  class { "puppet::master":
+    store_configs => $store_configs,
+    db_server => $db_server,
+    db_user => $db_user,
+    db_password => $db_password,
+    db_adapter => $db_adapter,
+    fileserver_access => $fileserver_access,
+    certificate_name => $certificate_name
+  }
+  class { "puppet::master::apache":
+    certificate_name => $certificate_name
+  }
+  include puppet::master::git
 }
