@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+		ServerName <%= server_name %>
+		DocumentRoot /var/www
+    ProxyPass / http://localhost:9200/
+    ProxyPassReverse / http://localhost:9200/
+    <Location />
+        AuthType Basic
+        AuthName "Authorized Users Only"
+        AuthUserFile <%= htpasswd_filename %>
+        Require valid-user
+    </Location>
+    <Location /_cluster>
+				Satisfy Any
+				Allow from localhost
+		</Location>
+</VirtualHost>
