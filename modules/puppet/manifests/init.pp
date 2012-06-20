@@ -43,15 +43,17 @@ class puppet::client($enable = true, $puppet_server = "") {
 # $fileserver_access should be a list of IPs/networks as required by
 # fileserver.conf
 #
-# $certificate_name specifies the name of the ssl certificate and key
-# for the master, e.g: /var/lib/puppet/ssl/certs/$certificate_name
-# Defaults to fqdn.pem - you need to manually create and sign a new
-# cert if you want to use a different hostname
+# $pm_fqdn sets the fqdn used to access the puppet master (it defaults to the server's own $fqdn)
+# It's used to locate the ssl certificate and key
+# for the master, e.g: /var/lib/puppet/ssl/certs/{$pm_fqdn}.pem
 #
-# Only needs a database config if $store_configs is set to true
+# You need to manually create and sign a new cert if you want to use a
+# different hostname (puppet ca generate my.new.fqdn.com)
 #
-# 
-class puppet::master($store_configs = false, $db_server = "", $db_user = "", $db_password = "", $db_adapter = "", $fileserver_access = [], $certificate_name = "${fqdn}.pem") {
+# Only needs a database server configured if $store_configs is set to
+# true
+#
+class puppet::master($store_configs = false, $db_server = "", $db_user = "", $db_password = "", $db_adapter = "", $fileserver_access = [], $pm_fqdn = "${fqdn}") {
   
   package { "puppetmaster":
     ensure => latest
@@ -98,7 +100,7 @@ class puppet::master($store_configs = false, $db_server = "", $db_user = "", $db
 }
 
 # puppetmaster apache server
-class puppet::master::apache($certificate_name = "") {
+class puppet::master::apache($pm_fqdn = "${fqdn}") {
 
   package { "puppetmaster-passenger":
     ensure => installed
@@ -122,7 +124,7 @@ class puppet::master::apache($certificate_name = "") {
 }
 
 # puppetmaster nginx server
-class puppet::master::nginx($certificate_name = "") {
+class puppet::master::nginx($pm_fqdn = "${fqdn}") {
 
   package { "puppetmaster-passenger":
     ensure => installed
@@ -190,7 +192,7 @@ class puppet::master::git {
 # one class that gives you everything you need for a neat apache-based
 # puppetmaster server
 #
-class puppet::master::standalone($store_configs = false, $db_server = "", $db_user = "", $db_password = "", $db_adapter = "", $fileserver_access = [], $certificate_name = "${fqdn}.pem") {
+class puppet::master::standalone($store_configs = false, $db_server = "", $db_user = "", $db_password = "", $db_adapter = "", $fileserver_access = [], $pm_fqdn = "${fqdn}") {
 
   include apt
   class { "puppet::master":
@@ -200,10 +202,10 @@ class puppet::master::standalone($store_configs = false, $db_server = "", $db_us
     db_password => $db_password,
     db_adapter => $db_adapter,
     fileserver_access => $fileserver_access,
-    certificate_name => $certificate_name
+    pm_fqdn => $pm_fqdn
   }
   class { "puppet::master::apache":
-    certificate_name => $certificate_name
+    pm_fqdn => $pm_fqdn
   }
   include puppet::master::git
 }

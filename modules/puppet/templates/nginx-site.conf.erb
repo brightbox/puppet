@@ -16,8 +16,8 @@ server {
     tcp_nodelay        on;
 
     ssl                        on;
-    ssl_certificate            /var/lib/puppet/ssl/certs/<%= certificate_name %>;
-    ssl_certificate_key        /var/lib/puppet/ssl/private_keys/<%= certificate_name %>;
+    ssl_certificate            /var/lib/puppet/ssl/certs/<%= pm_fqdn %>.pem;
+    ssl_certificate_key        /var/lib/puppet/ssl/private_keys/<%= pm_fqdn %>.pem;
     ssl_client_certificate     /var/lib/puppet/ssl/certs/ca.pem;
     ssl_protocols              SSLv3 TLSv1;
     ssl_verify_depth           1;

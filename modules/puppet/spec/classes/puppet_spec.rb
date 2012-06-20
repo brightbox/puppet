@@ -21,7 +21,7 @@ describe 'puppet::master', :type => :class do
 end
 
 describe 'puppet::master::apache', :type => :class do
-  let(:params) { { :certificate_name => '@@certname' } }
+  let(:params) { { :pm_fqdn => '@@certname' } }
 
   it { should contain_apache__site('puppetmaster').
      with_content(/@@certname/)
@@ -29,7 +29,7 @@ describe 'puppet::master::apache', :type => :class do
 end
 
 describe 'puppet::master::standalone', :type => :class do
-  let(:params) { { :certificate_name => '@@certname' } }
+  let(:params) { { :pm_fqdn => '@@certname' } }
 
   it { should contain_apache__site('puppetmaster').
      with_content(/@@certname/)
