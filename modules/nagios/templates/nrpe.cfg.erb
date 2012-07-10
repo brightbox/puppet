@@ -1,0 +1,12 @@
+pid_file=/var/run/nagios/nrpe.pid
+server_port=5666
+nrpe_user=nagios
+nrpe_group=nagios
+allowed_hosts=<%= allowed_hosts.join(",") %>
+dont_blame_nrpe=0
+debug=0
+command_timeout=60
+connection_timeout=300
+
+include=/etc/nagios/nrpe_local.cfg
+include=/etc/nagios/nrpe_puppet.cfg

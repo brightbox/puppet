@@ -1,0 +1,10 @@
+command[check_load]=/usr/lib/nagios/plugins/check_load -w <%= load_warning %> -c <%= load_critical %>
+command[check_disk]=/usr/lib/nagios/plugins/check_disk -u GB -w 10% -c 5% -A -i 'lock|run|shm|dev$|srv'
+command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 10 -c 200 -s Z
+command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 200 -c 400
+
+command[check_outgoing_smtp]=/usr/lib/nagios/plugins/check_smtp -H <%= outgoing_smtp_host %> -w 10 -c 20 -t 30
+
+command[check_recursive_dns]=/usr/lib/nagios/plugins/check_dns -w 4 -c 10 -t 20 <%= recursive_dns_host %>
+
+command[check_outgoing_http]=/usr/lib/nagios/plugins/check_http -H <%= outgoing_http_host %> -t 30

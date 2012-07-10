@@ -1,0 +1,8 @@
+name    'brightbox-nagios'
+version '1.0.0'
+source ''
+author 'brightbox'
+license 'GPL3'
+summary 'Nagios NRPE daemon management'
+description 'Support for nagios nrpe daemon'
+project_page 'https://github.com/brightbox/puppet'
