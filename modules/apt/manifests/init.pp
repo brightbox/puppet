@@ -10,7 +10,6 @@ class apt {
   Apt::Key <| |> -> Exec["apt-update"]
 
   # Ensure apt-get update has been run before installing any packages
-  # though exclude dpkg-dev package which apt::localrepo needs installed!
   Exec["apt-update"] -> Package <| |>
 }
 
@@ -26,6 +25,7 @@ class apt::localrepo($repodir = "/var/cache/local-repo") {
     command => "/usr/bin/apt-ftparchive packages . > Packages",
     require => [File["${repodir}"]],
     before => Exec["apt-update"],
+    notify => Exec["apt-update"],
     refreshonly => true
   }
   apt::source { "apt-local-repo":
