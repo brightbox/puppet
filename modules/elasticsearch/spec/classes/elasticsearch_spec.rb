@@ -21,11 +21,15 @@ describe 'elasticsearch', :type => :class do
     }
   end
 
-
   describe "config file" do
     let(:params) { { :discovery_hosts => ["s_one", "s_two", "s_three"] } }
     it { should contain_file('/etc/elasticsearch/elasticsearch.yml').
        with_content(/["s_one", "s_two", "s_three"]/)
     }
   end
+
+end
+
+describe 'elasticsearch::nrpe', :type => :class do
+  it { should contain_nagios__nrpe_config('elasticsearch') }
 end

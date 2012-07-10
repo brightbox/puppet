@@ -48,6 +48,9 @@ class elasticsearch($version = "0.19.3", $heap_size = "1024m", $cluster_name = '
     notify => Service[elasticsearch],
     require => [Package[elasticsearch], File["/etc/elasticsearch"]]
   }
+  if tagged("nrpe") {
+    include elasticsearch::nrpe
+  }
 }
 
 class elasticsearch::apacheproxy($server_name = "elasticsearch", $htpasswd_filename = "/etc/apache2/elasticsearch.htpasswd") {
@@ -56,4 +59,10 @@ class elasticsearch::apacheproxy($server_name = "elasticsearch", $htpasswd_filen
   }
   apache::module { 'proxy': conf => false }
   apache::module { 'proxy_http': conf => false }
+}
+
+class elasticsearch::nrpe {
+  nagios::nrpe_config { "elasticsearch":
+    content => template("elasticsearch/es-nrpe.conf.erb")
+  }
 }
