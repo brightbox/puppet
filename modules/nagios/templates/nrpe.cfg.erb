@@ -1,4 +1,9 @@
+<% if lsbdistcodename == "hardy" %>
+pid_file=/var/run/nrpe.pid
+<% else %>
 pid_file=/var/run/nagios/nrpe.pid
+<% end %>
+
 server_port=5666
 nrpe_user=nagios
 nrpe_group=nagios
