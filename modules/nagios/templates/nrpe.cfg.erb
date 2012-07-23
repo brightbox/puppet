@@ -1,4 +1,4 @@
-<% if lsbdistcodename == "hardy" %>
+<% if Facter::lsbdistcodename == "hardy" %>
 pid_file=/var/run/nrpe.pid
 <% else %>
 pid_file=/var/run/nagios/nrpe.pid
