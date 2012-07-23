@@ -1,4 +1,4 @@
-<% remote_servers.split(/[, ]+/).each do |ip| %>
+<% (remote_servers.is_a?(Array) ? remote_servers : remote_servers.split(/[, ]+/)).each do |ip| %>
 $WorkDirectory /var/spool/rsyslog # where to place spool files
 $ActionQueueFileName remote_server_<%= ip %> # unique name prefix for spool files
 $ActionQueueMaxDiskSpace 200m   # 1gb space limit (use as much as possible)

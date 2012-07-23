@@ -2,16 +2,15 @@
 #
 # Only supports Ubuntu.
 #
-# Set remote_servers to a comma separated list of servers to send
-# messages to (via tcp). Can optionally include port separated with
-# a colon.
+# Set remote_servers to an array of servers to send messages to (via
+# tcp). Can optionally include port separated with a colon.
 #
 # Set per_host_logs to true to write logs to /var/log/by-host
 # according the the IP and hostname the message came in from (only
 # useful with tcp or udp enabled!)
 #
 # e.g: class { rsyslog:
-#        remote_servers => '10.0.0.1,10.0.0.2:2514'
+#        remote_servers => ["10.0.0.1", "10.0.0.2:2514"]
 #      }
 #
 class rsyslog($remote_servers = false, $per_host_logs = false) {
