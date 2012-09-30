@@ -13,9 +13,10 @@ define apache::module($conf = true) {
   }    
 }
 
-define apache::site($content = "") {
+define apache::site($content = undef, $source = undef) {
   file { "/etc/apache2/sites-available/$name":
     content => $content,
+    source => $source,
     require => Package["apache2"]
   }
   file { "/etc/apache2/sites-enabled/$name":
