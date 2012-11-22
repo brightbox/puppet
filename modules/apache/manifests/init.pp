@@ -17,7 +17,8 @@ define apache::site($content = undef, $source = undef) {
   file { "/etc/apache2/sites-available/$name":
     content => $content,
     source => $source,
-    require => Package["apache2"]
+    require => Package["apache2"],
+    notify => Service["apache2"]
   }
   file { "/etc/apache2/sites-enabled/$name":
     ensure => "/etc/apache2/sites-available/$name",
