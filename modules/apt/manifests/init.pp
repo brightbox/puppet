@@ -62,7 +62,7 @@ define apt::ppa($ppa = "") {
 # actually the last 8 characters of the fingeprint)
 define apt::key($id) {
   exec { "apt-key-$name":
-    command => "/usr/bin/apt-key adv --keyserver hkp://keys.gnupg.net --recv-keys $id",
+    command => "/usr/bin/apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv-keys $id",
     unless => "/usr/bin/apt-key list | /bin/grep $id",
     notify => Exec["apt-update"]
   }
