@@ -54,7 +54,7 @@ class riak($cookie = "secret", $seed_host = false, $riak_search = true, $riak_co
   if $seed_host {
     exec { "riak-seed-host":
       path => "/usr/sbin:/usr/bin",
-      command => "riak-admin cluster join riak@$seed_host && riak-admin cluster commit && touch /var/lib/riak/joined-seed-host-${seed_host}",
+      command => "riak-admin cluster join riak@$seed_host && riak-admin cluster plan && riak-admin cluster commit && touch /var/lib/riak/joined-seed-host-${seed_host}",
       creates => "/var/lib/riak/joined-seed-host-${seed_host}",
       require => Service[riak]
     }
