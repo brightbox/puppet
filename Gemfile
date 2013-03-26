@@ -5,4 +5,5 @@ group :development do
 	gem "puppet-lint"
   gem "rake"
 	gem "puppet", "2.7.11"
+	gem "hiera-puppet"
 end		
