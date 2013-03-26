@@ -10,7 +10,16 @@
 # On Lucid it currently requires a manual step to install the package
 # as Lucid apt-get doesn't support trusted=yes parameter
 #
-class elasticsearch($version = "0.19.3", $heap_size = "1024m", $cluster_name = 'elasticsearch', $discovery_hosts = [], $minimum_master_nodes = 1, $deburl = false, $master = true, $data = true) {
+class elasticsearch(
+  $version = hiera("elasticsearch.version", "0.19.3"),
+  $heap_size = hiera("elasticsearch.heap_size", "1024m"),
+  $cluster_name = hiera("elasticsearch.cluster_name", "elasticsearch"),
+  $discovery_hosts = hiera("elasticsearch.discovery_hosts", []),
+  $minimum_master_nodes = hiera("elasticsearch.minimum_master_nodes", 1),
+  $deburl = hiera("elasticsearch.deburl", false),
+  $master = hiera("elasticsearch.master", true),
+  $data = hiera("elasticsearch.data", true)
+) {
   package { "default-jre-headless":
     ensure => installed
   }
