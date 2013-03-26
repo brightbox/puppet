@@ -25,7 +25,7 @@ class elasticsearch(
   }
   apt::localpackage { "elasticsearch":
     url => $deburl ? {
-      false => "https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-${version}.deb",
+      false => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.deb",
       default => $deburl
     }
   }
