@@ -2,10 +2,10 @@ require File.join(File.dirname(__FILE__), '../spec_helper')
 
 describe 'apt::ppa', :type => :define do
   let(:title) { 'brightbox-ruby-ng' }
-  let(:params) { { :ppa => 'brightbox/ruby-ng' } }
+  let(:params) { { :ppa => 'brightbox/ruby-ng3.3' } }
   let(:facts) { { :lsbdistcodename => 'precise' } }
-  it { should contain_exec('apt-add-repository-brightbox-ruby-ng').
-   with( :creates => '/etc/apt/sources.list.d/brightbox-ruby-ng-precise.list' )  
+  it { should contain_exec('apt-add-repository-brightbox-ruby-ng3_3').
+   with( :creates => '/etc/apt/sources.list.d/brightbox-ruby-ng3_3-precise.list' )  
   }
 end
 
@@ -28,4 +28,22 @@ describe 'apt::source', :type => :define do
      with_content(/deb http:\/\/some\/url/)
   }
   it { should contain_apt__key('some-repo0090DAAD').with_id('0090DAAD') }
+end
+
+describe 'apt::preferences', :type => :define do
+  let(:title) { 'mypackage' }
+  describe "default" do
+    let(:params) { { :package => "somepackage", :pin => "version 99.8", :priority => 600 } }
+    it { should contain_file("/etc/apt/preferences.d/mypackage").
+        with_ensure("present").
+        with_content(/Package: somepackage/)
+    }
+  end
+  describe "disabled" do
+    let(:params) { { :ensure => "absent", :package => "somepackage", :pin => "version 99.8", :priority => 600 } }
+    it { should contain_file("/etc/apt/preferences.d/mypackage").
+        with_ensure("absent")
+    }
+  end
+
 end

@@ -5,4 +5,7 @@ describe 'apt', :type => :class do
 end
 
 describe 'apt::localrepo', :type => :class do
+  it { should contain_exec("apt-update-local-repo") }
+  it { should contain_apt__source('apt-local-repo') }
 end
+
