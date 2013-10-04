@@ -75,3 +75,23 @@ define ssl::cert::selfsigned($state, $country, $organisation, $days = 3650, $key
 
 }
 
+# name should be the domain usually
+# cert and key should be strings with the cert and key data
+define ssl::cert($cert = hiera("${name}.crt"), $key = hiera("${name}.key"), $owner = root, $group = root) {
+  include ssl
+  $key_filename = "/etc/ssl/private/${name}.key"
+  $crt_filename = "/etc/ssl/certs/${name}.crt"
+
+  file { $key_filename:
+    owner => $owner,
+    group => $group,
+    mode => 640,
+    content => $key
+  }
+
+  file { $crt_filename:
+    owner => $owner, group => $group,
+    mode => 644,
+    content => $cert
+  }
+}
