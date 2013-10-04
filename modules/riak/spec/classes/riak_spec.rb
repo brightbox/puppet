@@ -11,9 +11,9 @@ describe 'riak', :type => :class do
       with_content(/-name riak@10.11.12.13/)
     }
     it { should contain_file("/etc/riak/app.config").
-      with_content(/{riak_search, \[{enabled, true}\]/).
-      with_content(/{riak_control, \[{enabled, false/).
-      with_content(/{userlist, \[\]}/)
+      with_content(/\{riak_search, \[\{enabled, true\}\]/).
+      with_content(/\{riak_control, \[\{enabled, false/).
+      with_content(/\{userlist, \[\]}/)
     }
   end
 
@@ -29,7 +29,7 @@ describe 'riak', :type => :class do
     let(:params) { { :riak_search => false } }
     let(:facts) { { :lsbdistcodename => 'precise', :ipaddress => '10.11.12.13' } }
     it { should contain_file("/etc/riak/app.config").
-      with_content(/{riak_search, \[{enabled, false}\]/)
+      with_content(/\{riak_search, \[\{enabled, false\}\]/)
     }
   end
 
@@ -44,8 +44,8 @@ describe 'riak', :type => :class do
     let(:params) { { :riak_control => true, :riak_control_userlist => ["john:secret", "bob:hidden"] } }
     let(:facts) { { :lsbdistcodename => 'precise', :ipaddress => '10.11.12.13' } }
     it { should contain_file("/etc/riak/app.config").
-      with_content(/{riak_control, \[{enabled, true/).
-      with_content(/{userlist, \[{"john", "secret"},{"bob", "hidden"}\]}/)
+      with_content(/\{riak_control, \[\{enabled, true/).
+      with_content(/\{userlist, \[\{"john", "secret"\},\{"bob", "hidden"\}\]\}/)
     }
   end
 end
