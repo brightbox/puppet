@@ -21,12 +21,12 @@ class ssl {
   }
 
   file { "/etc/ssl/ssl-cert-snakeoil.pem":
-    ensure => exists,
+    ensure => present,
     require => Package[ssl-cert]
   }
 
   file { "/etc/ssl/private/ssl-cert-snakeoil.key":
-    ensure => exists,
+    ensure => present,
     require => Package[ssl-cert]
   }
 }
