@@ -24,7 +24,7 @@ class ruby::common {
 
 # Some handy dependencies used commonly by Rails apps
 class ruby::rails {
-  package { ["libxml2-dev", "libxslt1-dev", "libmysqlclient-dev", "libsqlite3-dev", "libonig-dev", "graphicsmagick-imagemagick-compat", "graphicsmagick-libmagick-dev-compat"]:
+  package { ["libxml2-dev", "libxslt1-dev", "libmysqlclient-dev", "libsqlite3-dev", "libonig-dev", "graphicsmagick-imagemagick-compat", "graphicsmagick-libmagick-dev-compat", "libssl-dev"]:
     ensure => installed
   }
 }
