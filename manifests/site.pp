@@ -1,5 +1,5 @@
 node default {
-  include apt
+  apt {refreshonly => false}
   include apt_cacher_ng
 
   package { "language-pack-en":
