@@ -1,6 +1,7 @@
 node default {
   class { "apt":
-    refreshonly => false
+    refreshonly => false,
+    autoupgrade => true
   }
   class { "apt_cacher_ng":
   }
