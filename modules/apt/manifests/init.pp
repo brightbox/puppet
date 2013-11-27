@@ -1,8 +1,20 @@
-class apt {
+class apt (
+  $refreshonly = hiera("apt.refreshonly", true),
+  $autoupgrade = hiera("apt.autoupgrade", false)
+) {
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
 #    schedule => daily,
+    refreshonly => $refreshonly
+  }
+
+  exec { "apt-upgrade":
+    command => "/usr/bin/apt-get -y upgrade",
     refreshonly => true
+  }
+
+  if $autoupgrade {
+    Exec["apt-update"] ~> Exec["apt-upgrade"]
   }
 
   # Ensure apt is setup before running apt-get update
