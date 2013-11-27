@@ -1,3 +1,3 @@
 node default {
-  include apt-cacher-ng
+  include apt_cacher_ng
 }
