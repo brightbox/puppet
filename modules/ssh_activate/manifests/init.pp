@@ -76,5 +76,13 @@ class ssh_activate {
     name => 'ssh',
     ensure => 'stopped'
   }
+
+  augeas { "sshd_config":
+    context => "/files/etc/ssh/sshd_config",
+    changes => [
+      "set PermitRootLogin no",
+      "set PasswordAuthentication no"
+    ],
+  }
   
 }
