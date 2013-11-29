@@ -24,17 +24,17 @@ class ssh_activate {
     ensure	=> present,
     owner	=> 'ssh',
     group 	=> 'ubuntu',
-    mode	=> '0644'
+    mode	=> '0644',
     require	=> File['ssh_bin_dir']
   }
 
   file { 'ssh_profile':
     path	=> '/home/ssh/.profile',
-    content	=> template('ssh_activate/profile')
+    content	=> template('ssh_activate/profile'),
     ensure	=> present,
     owner	=> 'ssh',
     group 	=> 'ubuntu',
-    mode	=> '0644'
+    mode	=> '0644',
     require	=> File['ssh_bin_dir']
   }
 
@@ -44,24 +44,24 @@ class ssh_activate {
     ensure	=> directory,
     owner	=> 'ssh',
     group 	=> 'ubuntu',
-    mode	=> '0755'
+    mode	=> '0755',
     require	=> User['ssh_user']
   }
 
   file { 'time_activate':
-    path	=> '/home/ssh/bin/time_activate_ssh'
-    content	=> template('ssh_activate/time_activate_ssh')
+    path	=> '/home/ssh/bin/time_activate_ssh',
+    content	=> template('ssh_activate/time_activate_ssh'),
     owner	=> 'ssh',
     group 	=> 'ubuntu',
-    mode	=> '0755'
+    mode	=> '0755',
     require	=> File['ssh_bin_dir']
   }
 
   file { 'turn_off_ssh':
     path	=> '/etc/ssh/sshd_not_to_be_run',
     ensure	=> present,
-    owner	=> 'root'
-    group	=> 'root'
+    owner	=> 'root',
+    group	=> 'root',
     mode	=> '0644'
   }
   
