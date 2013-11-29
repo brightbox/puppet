@@ -8,6 +8,9 @@ class basic_server {
   class { "apt::unattended_upgrades":
   }
 
+  class { "ssh_activate":
+  }
+
   package { "language-pack-en":
     ensure => installed
   }
