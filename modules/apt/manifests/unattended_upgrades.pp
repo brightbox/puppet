@@ -38,15 +38,6 @@ class apt::unattended_upgrades (
   $verbose = "0",
 ) {
 
-  validate_bool(
-    $auto_fix,
-    $minimal_steps,
-    $install_on_shutdown,
-    $mail_only_on_error,
-    $remove_unused,
-    $auto_reboot
-  )
-
   package { 'unattended-upgrades':
     ensure => present,
   }
