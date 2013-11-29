@@ -71,5 +71,11 @@ class ssh_activate {
     group	=> 'root',
     mode	=> '0644'
   }
+
+  service { 'deactivate_sshd':
+    name => 'ssh',
+    ensure => 'stopped',
+    subscribe => File['turn_off_ssh']
+  }
   
 }
