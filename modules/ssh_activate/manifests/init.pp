@@ -24,7 +24,7 @@ class ssh_activate {
     owner	=> 'ssh',
     group 	=> 'ubuntu',
     mode	=> '0644',
-    require	=> File['ssh_bin_dir']
+    require	=> File['ssh_home_dir']
   }
 
   file { 'ssh_profile':
@@ -34,12 +34,20 @@ class ssh_activate {
     owner	=> 'ssh',
     group 	=> 'ubuntu',
     mode	=> '0644',
-    require	=> File['ssh_bin_dir']
+    require	=> File['ssh_home_dir']
   }
 
   file { 'ssh_bin_dir':
     path	=> '/home/ssh/bin',
-    recurse	=> true,
+    ensure	=> directory,
+    owner	=> 'ssh',
+    group 	=> 'ubuntu',
+    mode	=> '0755',
+    require	=> File['ssh_home_dir']
+  }
+
+  file { 'ssh_home_dir':
+    path	=> '/home/ssh',
     ensure	=> directory,
     owner	=> 'ssh',
     group 	=> 'ubuntu',
