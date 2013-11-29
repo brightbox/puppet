@@ -1,4 +1,6 @@
 class ssh_activate {
+
+  include augeas
   
   user { 'ssh_user':
     name => 'ssh',
@@ -85,6 +87,5 @@ class ssh_activate {
     ],
   }
 
-  Package["ruby-augeas"] -> Augeas <| |>
   
 }
