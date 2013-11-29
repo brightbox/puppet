@@ -74,8 +74,7 @@ class ssh_activate {
 
   service { 'deactivate_sshd':
     name => 'ssh',
-    ensure => 'stopped',
-    subscribe => File['turn_off_ssh']
+    ensure => 'stopped'
   }
   
 }
