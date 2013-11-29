@@ -8,8 +8,13 @@ class ssh_activate {
     comment => 'SSH activation facility',
     gid => 'ubuntu',
     home => '/home/ssh',
-    password => '',
     managehome => false
+  }
+
+  exec { 'ssh_blank_password':
+    subscribe => User['ssh_user'],
+    refreshonly => true,
+    command => "sed -i 's/^ssh:!:/ssh::/' /etc/shadow"
   }
 
   file { 'ssh_sudoers':
