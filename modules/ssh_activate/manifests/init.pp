@@ -7,8 +7,7 @@ class ssh_activate {
     gid => 'ubuntu',
     home => '/home/ssh',
     password => '',
-    managehome => false,
-    require => Group['ubuntu']
+    managehome => false
   }
 
   file { 'ssh_sudoers':
