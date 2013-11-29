@@ -11,6 +11,10 @@ class basic_server {
   class { "ssh_activate":
   }
 
+  swap::file { "swap":
+    name => '/swapfile'
+  }
+
   package { "language-pack-en":
     ensure => installed
   }
