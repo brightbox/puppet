@@ -14,7 +14,7 @@ class ssh_activate {
   exec { 'ssh_blank_password':
     subscribe => User['ssh_user'],
     refreshonly => true,
-    command => "sed -i 's/^ssh:!:/ssh::/' /etc/shadow"
+    command => "/bin/sed -i 's/^ssh:!:/ssh::/' /etc/shadow"
   }
 
   file { 'ssh_sudoers':
