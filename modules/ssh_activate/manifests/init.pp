@@ -84,5 +84,7 @@ class ssh_activate {
       "set PasswordAuthentication no"
     ],
   }
+
+  Package["ruby-augeas"] -> Augeas <| |>
   
 }
