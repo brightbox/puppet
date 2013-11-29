@@ -6,6 +6,9 @@ node default {
 
   class { "apt_cacher_ng":
   }
+  
+  class { "apt::unattended_upgrades":
+  }
 
   package { "language-pack-en":
     ensure => installed
