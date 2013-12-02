@@ -2,10 +2,8 @@ node default {
   class { "basic_server":
   }
 
-  class { "apt_cacher_ng":
+  package { "haproxy":
+    ensure => installed
   }
 
-  class { "git-daemon":
-  }
-  
 }
