@@ -23,4 +23,9 @@ class basic_server {
     ensure => purged
   }
 
+  service { "puppet":
+    ensure => stopped,
+    enable => false
+  }
+
 }
