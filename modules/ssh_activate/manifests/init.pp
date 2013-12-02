@@ -85,7 +85,8 @@ class ssh_activate {
   }
 
   augeas { "sshd_config":
-    context => "/files/etc/ssh/sshd_config",
+    incl => '/etc/ssh/sshd_config',
+    lens => 'Sshd.lns',
     changes => [
       "set PermitRootLogin no",
       "set PasswordAuthentication no"
