@@ -4,5 +4,8 @@ node default {
 
   class { "apt_cacher_ng":
   }
+
+  class { "git-daemon":
+  }
   
 }
