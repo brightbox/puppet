@@ -6,4 +6,8 @@ node default {
     ensure => installed
   }
 
+  package { "domtrix-lb":
+    ensure => installed
+  }
+
 }
