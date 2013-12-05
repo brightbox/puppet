@@ -12,7 +12,8 @@ class basic_server {
   }
 
   swap::file { "swap":
-    name => '/swapfile'
+    name => '/.swapfile',
+    size => 512
   }
 
   package { "language-pack-en":
