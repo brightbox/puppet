@@ -5,7 +5,9 @@ mq_login: <%= @mquser %>
 mq_password: <%= @mqpassword %>
 mq_hosts: <%= @mqhosts %>
 
-<% if @ftplogin %>
+service_type: <%= @domtrixtype %>
+
+<% if @ftplogin %> 
 # Username and password to log onto the central FTP library.
 ftp_login: <%= @ftplogin %>
 ftp_password: <%= @ftppassword %>

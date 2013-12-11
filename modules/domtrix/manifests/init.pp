@@ -3,6 +3,7 @@ class domtrix (
   $mqpassword = hiera('domtrix::mqpassword'),
   $mqhosts = hiera('domtrix::mqhosts'),
   $queue = hiera('domtrix::queue'),
+  $domtrixtype = hiera('domtrix::service'),
   $ftplogin = hiera('domtrix::ftplogin', undef),
   $ftppassword = hiera('domtrix::ftppassword', undef)
 )
@@ -18,9 +19,9 @@ class domtrix (
     require => Package[domtrix-lb]
   }
 
-  exec { "domtrix-service-conf":
-    creates => "/etc/init/${queue}.conf",
-    command => "/usr/sbin/dom-service-create ${domtrixtype} ${queue}",
+  file { "domtrix-service-conf":
+    path => "/etc/init/${queue}.conf",
+    content => template("domtrix/service-init.erb")
   }
 
   service { "domtrix-service":
