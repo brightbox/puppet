@@ -19,14 +19,14 @@ class domtrix (
     require => Package[domtrix-lb]
   }
 
-  file { "domtrix-service-conf":
+  file { "domtrix-service-init-script":
     path => "/etc/init/${queue}.conf",
     content => template("domtrix/service-init.erb")
   }
 
   service { "domtrix-service":
     subscribe => File[domtrix-config],
-    require => Exec[domtrix-service-conf],
+    require => File[domtrix-service-init-script],
     name => $queue,
     ensure => running,
     enable => true
