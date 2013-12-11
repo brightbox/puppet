@@ -1,0 +1,12 @@
+# Managed by Puppet
+
+# Username and password to log onto Active MQ
+mq_login: <%= @mquser %>
+mq_password: <%= @mqpassword %>
+mq_hosts: <%= @mqhosts %>
+
+<% if @ftplogin %>
+# Username and password to log onto the central FTP library.
+ftp_login: <%= @ftplogin %>
+ftp_password: <%= @ftppassword %>
+<% end %>
