@@ -10,7 +10,7 @@ umask 022
 env MACHINE=<%= @queue %>
 #env DEBUG=1
 
-exec /usr/bin/domtrix-service-worker
+exec /usr/sbin/domtrix-service-worker
 
 post-stop script
   test -r /etc/domtrix/config.yml || sleep 5
