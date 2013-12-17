@@ -2,7 +2,7 @@ class mys_service (
   $admin_password = hiera("mys_service::admin_password", ''),
   $admin_username = hiera("mys_service::admin_username", 'admin'),
   $mysql_data_dir = hiera("mys_service::mysql_data_dir", '/var/lib/mysql'),
-  $mysql_data_dir_check = hiera("mys_service::check_mysql_data_dir_mounted", true)
+  $mysql_data_dir_check = hiera("mys_service::check_mysql_data_dir_mounted", 'true')
 )
 {
 
@@ -11,7 +11,7 @@ class mys_service (
 
   if $admin_password != '' {
 
-    if $mysql_data_dir_check {
+    if $mysql_data_dir_check == 'true' {
       exec { "check-mysql-data-dir-mounted":
 	path => "/bin",
 	command => "mount -l | grep -q 'on $mysql_data_dir '",
