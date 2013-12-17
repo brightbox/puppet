@@ -1,0 +1,154 @@
+{
+  "description": "UNKNOWN",
+  "summary": "Puppet types and providers to manage LVM",
+  "types": [
+    {
+      "providers": [
+        {
+          "doc": "Manages filesystem of a logical volume\n\nRequired binaries: `blkid`.",
+          "name": "lvm"
+        }
+      ],
+      "properties": [
+        {
+          "doc": "The basic property that the resource should be in.  Valid values are `present`, `absent`.",
+          "name": "ensure"
+        }
+      ],
+      "doc": "The filesystem type",
+      "name": "filesystem",
+      "parameters": [
+        {
+          "doc": "",
+          "name": "name"
+        },
+        {
+          "doc": "The file system type. eg. ext3.",
+          "name": "fs_type"
+        },
+        {
+          "doc": "Params for the mkfs command. eg. -l internal,agcount=x",
+          "name": "options"
+        }
+      ]
+    },
+    {
+      "providers": [
+        {
+          "doc": "Manages LVM logical volumes\n\nRequired binaries: `lvs`, `blkid`, `resize2fs`, `umount`, `lvcreate`, `dmsetup`, `lvremove`, `lvextend`.",
+          "name": "lvm"
+        }
+      ],
+      "properties": [
+        {
+          "doc": "The basic property that the resource should be in.  Valid values are `present`, `absent`.",
+          "name": "ensure"
+        },
+        {
+          "doc": "The size of the logical volume. Set to undef to use all available space",
+          "name": "size"
+        }
+      ],
+      "doc": "",
+      "name": "logical_volume",
+      "parameters": [
+        {
+          "doc": "The name of the logical volume.  This is the unqualified name and will be\n            automatically added to the volume group's device path (e.g., '/dev/$vg/$lv').",
+          "name": "name"
+        },
+        {
+          "doc": "The volume group name associated with this logical volume.  This will automatically\n            set this volume group as a dependency, but it must be defined elsewhere using the\n            volume_group resource type.",
+          "name": "volume_group"
+        },
+        {
+          "doc": "The initial size of the logical volume. This will only apply to newly-created volumes",
+          "name": "initial_size"
+        }
+      ]
+    },
+    {
+      "providers": [
+        {
+          "doc": "Manages LVM physical volumes\n\nRequired binaries: `pvcreate`, `pvremove`, `pvs`.",
+          "name": "lvm"
+        }
+      ],
+      "properties": [
+        {
+          "doc": "The basic property that the resource should be in.  Valid values are `present`, `absent`.",
+          "name": "ensure"
+        }
+      ],
+      "doc": "",
+      "name": "physical_volume",
+      "parameters": [
+        {
+          "doc": "",
+          "name": "name"
+        }
+      ]
+    },
+    {
+      "providers": [
+        {
+          "doc": "Manages LVM volume groups\n\nRequired binaries: `vgs`, `vgextend`, `vgreduce`, `vgcreate`, `pvs`, `vgremove`.",
+          "name": "lvm"
+        }
+      ],
+      "properties": [
+        {
+          "doc": "The basic property that the resource should be in.  Valid values are `present`, `absent`.",
+          "name": "ensure"
+        },
+        {
+          "doc": "The list of physical volumes to be included in the volume group; this\n             will automatically set these as dependencies, but they must be defined elsewhere\n             using the physical_volume resource type.",
+          "name": "physical_volumes"
+        }
+      ],
+      "doc": "",
+      "name": "volume_group",
+      "parameters": [
+        {
+          "doc": "The name of the volume group.",
+          "name": "name"
+        }
+      ]
+    }
+  ],
+  "author": "puppetlabs",
+  "source": "UNKNOWN",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-lvm",
+  "name": "puppetlabs-lvm",
+  "checksums": {
+    "spec/unit/puppet/type/logical_volume_spec.rb": "c601b0d040aa9b3340029bb72b409c9c",
+    "spec/unit/puppet/provider/filesystem/lvm_spec.rb": "5361f46e56952751499cd799b33fced5",
+    "spec/spec_helper.rb": "93b1a059b4ba4226dfa7472f905e4e61",
+    "manifests/volume.pp": "129580f58369e469892eb74022a62f41",
+    "lib/puppet/type/physical_volume.rb": "21f306de23bad962d2fa1f8316c6c2f0",
+    "lib/puppet/type/filesystem.rb": "5d11e39fd9c983722561795f24d283d9",
+    "spec/unit/puppet/type/physical_volume_spec.rb": "5fac7d253f2aef7e5fe9cd0215aba728",
+    "spec/unit/puppet/provider/logical_volume/lvm_spec.rb": "a74ab507cf2a7ff8cd5f50f4e370ebc2",
+    "spec/lib/matchers.rb": "0d8a1189209ded0fcefdd5ca100b01d1",
+    "README.markdown": "8627fc37275ce494bbd6ab66586ab284",
+    "Modulefile": "d9711aa8406eb6cd79e31db9b896cdac",
+    "lib/puppet/provider/physical_volume/lvm.rb": "ceb7fd1c60ef79a3375da30f27e1df2e",
+    "spec/unit/puppet/provider/physical_volume/lvm_spec.rb": "61fa21f426429dde8bd30b29c2e50609",
+    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
+    "LICENSE": "751419260aa954499f7abaabaa882bbe",
+    "lib/puppet/type/logical_volume.rb": "350c39a2c86e1eec8abab67d6f528a80",
+    "lib/puppet/provider/logical_volume/lvm.rb": "a53348a0ebcbad43c7ad2b0ffd0d2f75",
+    "spec/unit/puppet/provider/volume_group/lvm_spec.rb": "b0d27b62312d4eb94ae50727251ec650",
+    "lib/puppet/provider/volume_group/lvm.rb": "d7934074ef5a6d348bc69d09affe345d",
+    "spec/lib/helpers.rb": "cba0cd3b30e99fde8382fdafe8319bd4",
+    "lib/puppet/type/volume_group.rb": "e48f119df8920af800135fe38c1f6017",
+    "spec/unit/puppet/type/filesystem_spec.rb": "df513b356bd51bdbbc380325bec3c0c9",
+    "lib/puppet/provider/filesystem/lvm.rb": "856c5eddd4c03affddca9eb6bdcc3678",
+    "Gemfile": "c1d442dcaeb60f62fe8b887285f003bd",
+    "spec/unit/puppet/type/volume_group_spec.rb": "eab4c298c22e655aa68af7a122d6a17f"
+  },
+  "dependencies": [
+
+  ],
+  "license": "GPLv2",
+  "version": "0.1.2"
+}
