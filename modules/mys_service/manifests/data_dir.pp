@@ -5,7 +5,7 @@ class mys_service::data_dir(
   $data_device='/dev/mysql/data'
 
   package { "data_dir_progs":
-    name => [ 'lvm2', 'thin-partitioning-tools', 'xfsprogs' ],
+    name => [ 'lvm2', 'thin-provisioning-tools', 'xfsprogs' ],
     ensure => installed
   }
 
