@@ -2,22 +2,15 @@ class mys_service (
   $admin_password = hiera("mys_service::admin_password", ''),
   $admin_username = hiera("mys_service::admin_username", 'admin'),
   $mysql_data_dir = hiera("mys_service::mysql_data_dir", '/var/lib/mysql'),
-  $mysql_data_dir_check = hiera("mys_service::check_mysql_data_dir_mounted", 'true')
 )
 {
 
   Class['basic_server'] -> Class['mys_service']
 
-
+  class { "mys_service::data_dir":
+    mysql_data_dir => $mysql_data_dir
+  }
   if $admin_password != '' {
-
-    if $mysql_data_dir_check == 'true' {
-      exec { "check-mysql-data-dir-mounted":
-	path => "/bin",
-	command => "mount -l | grep -q 'on $mysql_data_dir '",
-	before => Class["percona::server::base"]
-      }
-    }
 
     ssl::cert::selfsigned { "mysql":
       state => "West Yorkshire",
@@ -31,7 +24,8 @@ class mys_service (
       ssl => true,
       ssl_key => "/etc/ssl/private/mysql.key",
       ssl_cert => "/etc/ssl/certs/mysql.crt",
-      data_dir => $mysql_data_dir
+      data_dir => $mysql_data_dir,
+      require => Class['mys_service::data_dir']
     }
 
     mysql_user { "${admin_username}@%":
