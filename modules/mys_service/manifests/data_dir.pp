@@ -49,6 +49,7 @@ class mys_service::data_dir(
     name => $mysql_data_dir,
     atboot => true,
     device => $data_device,
+    options => 'defaults',
     ensure => mounted,
     fstype => 'xfs'
   }
