@@ -19,6 +19,10 @@ then
 	echo "Data Partition already exists"
 else
 	echo "Generating Thin Data Partition"
+	if [ -b "${physical_vol}" ]
+	then
+	    parted -s -a none -- "${physical_vol%%[0-9]*}" resizepart ${physical_vol##*[^0-9]} -1s
+	fi
 	vgcreate "${volgroup_name}" "${physical_vol}"
 	lvcreate --thin \
 		 --size "${initial_thin_pool_size}" \

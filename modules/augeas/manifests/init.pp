@@ -2,7 +2,7 @@ class augeas {
 
   Package["augeas"] -> Augeas <| |>
 
-  if $operatingsystemrelease >= 13 {
+  if $lsbdistrelease >= 13 {
     $package_name = 'ruby-augeas'
   } else {
     $package_name = 'libaugeas-ruby'
