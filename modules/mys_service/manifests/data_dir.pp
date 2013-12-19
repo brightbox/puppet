@@ -25,6 +25,13 @@ class mys_service::data_dir(
     group => root
   }
 
+  file { "data_dir_mount_point":
+    name => $mysql_data_dir,
+    ensure => directory,
+    owner => root,
+    group => root
+  }
+
   exec { "create-mysql-partition":
     require => [
       Package['data_dir_progs'],
@@ -35,7 +42,10 @@ class mys_service::data_dir(
   }
 
   mount { "mount-data-partition":
-    require => Exec['create-mysql-partition'],
+    require => [
+      Exec['create-mysql-partition'],
+      File['data_dir_mount_point']
+    ],
     name => $mysql_data_dir,
     atboot => true,
     device => $data_device,
