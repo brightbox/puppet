@@ -15,7 +15,6 @@ class mys_service (
     mysql_data_dir => $mysql_data_dir,
     before => [
       Class['percona::server::5_5'],
-      Class['percona::server::base']
     ]
   }
 
