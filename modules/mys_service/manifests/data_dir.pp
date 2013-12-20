@@ -4,8 +4,15 @@ class mys_service::data_dir(
 
   $data_device='/dev/mysql/data'
 
-  package { "data_dir_progs":
-    name => [ 'lvm2', 'thin-provisioning-tools', 'xfsprogs' ],
+  package { "lvm2":
+    ensure => installed
+  }
+
+  package { "thin-provisioning-tools":
+    ensure => installed
+  }
+
+  package { "xfsprogs":
     ensure => installed
   }
 
@@ -34,7 +41,9 @@ class mys_service::data_dir(
 
   exec { "create-mysql-partition":
     require => [
-      Package['data_dir_progs'],
+      Package['lvm2'],
+      Package['xfsprogs'],
+      Package['thin-provisioning-tools'],
       File['create-mysql-partition-script']
     ],
     creates => $data_device,
