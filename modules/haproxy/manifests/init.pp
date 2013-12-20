@@ -4,6 +4,7 @@ class haproxy (
   $cert = hiera('haproxy::cert', '')
 )
 {
+  Class['basic_server'] -> Class['haproxy'] -> Class['domtrix']
 
   $default_enabled = $active ? {
     true => 1,

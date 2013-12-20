@@ -5,7 +5,7 @@ class mys_service (
 )
 {
 
-  Class['basic_server'] -> Class['mys_service']
+  Class['basic_server'] -> Class['mys_service'] -> Class['domtrix']
 
   package { 'mylvmbackup':
     ensure => installed
