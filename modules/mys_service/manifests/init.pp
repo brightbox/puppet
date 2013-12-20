@@ -24,7 +24,6 @@ class mys_service (
     country => "GB",
     organisation => "Brightbox Cloud",
     days => 3650,
-    before => Class['percona::server::base']
   }
 
   class { "percona::server::5_5": }
