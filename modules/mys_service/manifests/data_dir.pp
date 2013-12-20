@@ -35,8 +35,6 @@ class mys_service::data_dir(
   file { "data_dir_mount_point":
     name => $mysql_data_dir,
     ensure => directory,
-    owner => root,
-    group => root
   }
 
   exec { "create-mysql-partition":
