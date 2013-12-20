@@ -10,6 +10,14 @@ class mys_service (
   package { 'mylvmbackup':
     ensure => installed
   }
+  
+  service { 'mysql':
+    ensure => running,
+    enable => true,
+    require => [
+      Class ['percona::server::5_5']
+    ]
+  }
 
   class { "mys_service::data_dir":
     mysql_data_dir => $mysql_data_dir,
@@ -38,6 +46,7 @@ class mys_service (
 
     mysql_user { "${admin_username}@%":
       password_hash => mysql_password($admin_password),
+      require => Service['mysql']
     }
 
     mysql_grant { "${admin_username}@%":
