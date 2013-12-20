@@ -10,8 +10,8 @@ Puppet::Type.newtype(:mysql_user) do
         raise ArgumentError,
               "MySQL usernames are limited to a maximum of 16 characters"
       else
-        super
-      end
+        super value
+      end 
     end
   end
 
