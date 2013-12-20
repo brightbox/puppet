@@ -5,28 +5,38 @@ class mys_service (
 )
 {
 
-  Class['basic_server'] -> Class['mys_service']
+  Class['basic_server'] -> Class['mis_service']
+
+  package { 'mylvmbackup':
+    ensure => installed
+  }
 
   class { "mys_service::data_dir":
-    mysql_data_dir => $mysql_data_dir
+    mysql_data_dir => $mysql_data_dir,
+    before => [
+      Class['percona::server::5_5'],
+      Class['percona::server::base']
+    ]
   }
+
+  ssl::cert::selfsigned { "mysql":
+    state => "West Yorkshire",
+    country => "GB",
+    organisation => "Brightbox Cloud",
+    days => 3650,
+    before => Class['percona::server::base']
+  }
+
+  class { "percona::server::5_5": }
+
+  class { "percona::server::base":
+    ssl => true,
+    ssl_key => "/etc/ssl/private/mysql.key",
+    ssl_cert => "/etc/ssl/certs/mysql.crt",
+    data_dir => $mysql_data_dir,
+  }
+
   if $admin_password != '' {
-
-    ssl::cert::selfsigned { "mysql":
-      state => "West Yorkshire",
-      country => "GB",
-      organisation => "Brightbox Cloud",
-      days => 3650
-    }
-
-    class { "percona::server::5_5": }
-    class { "percona::server::base":
-      ssl => true,
-      ssl_key => "/etc/ssl/private/mysql.key",
-      ssl_cert => "/etc/ssl/certs/mysql.crt",
-      data_dir => $mysql_data_dir,
-      require => Class['mys_service::data_dir']
-    }
 
     mysql_user { "${admin_username}@%":
       password_hash => mysql_password(hiera("admin_password")),
