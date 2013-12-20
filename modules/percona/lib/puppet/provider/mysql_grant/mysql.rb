@@ -115,7 +115,7 @@ Puppet::Type.type(:mysql_grant).provide(:mysql) do
 			privs = privs.select do |p| p[0].match(/_priv$/) and p[1] == 'Y' end
 		end
 
-		privs.collect do |p| symbolize(p[0].downcase) end
+		privs.collect do |p| p[0].downcase.intern end
 	end
 
 	def privileges=(privs) 
