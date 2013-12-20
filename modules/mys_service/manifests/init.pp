@@ -5,7 +5,7 @@ class mys_service (
 )
 {
 
-  Class['basic_server'] -> Class['mis_service']
+  Class['basic_server'] -> Class['mys_service']
 
   package { 'mylvmbackup':
     ensure => installed

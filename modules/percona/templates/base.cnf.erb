@@ -6,7 +6,7 @@ bind-address		= 0.0.0.0
 # Need this when running under upstart
 user=mysql
 
-datadir=<%= data_dir %>
+datadir=<%= @data_dir %>
 
 thread_cache_size      = 32
 myisam-recover         = BACKUP
@@ -30,11 +30,11 @@ relay_log_space_limit = 200M
 
 innodb_thread_concurrency = 0
 
-<% if server_id %>
+<% if @server_id %>
 # Number of nodes in the replication cluster
-auto_increment_increment = <%= max_servers %>
-server-id = <%= server_id %>
-auto_increment_offset = <%= server_id %>
+auto_increment_increment = <%= @max_servers %>
+server-id = <%= @server_id %>
+auto_increment_offset = <%= @server_id %>
 log_bin = binlog
 log_slave_updates = 1
 sync_binlog = 1
@@ -52,8 +52,8 @@ innodb_file_per_table
 
 innodb_file_format=barracuda
 
-innodb_buffer_pool_size = <%= innodb_buffer_pool_size.to_i.floor %>M
-key_buffer = <%= key_buffer_size.to_i.floor %>M
+innodb_buffer_pool_size = <%= @innodb_buffer_pool_size.to_i.floor %>M
+key_buffer = <%= @key_buffer_size.to_i.floor %>M
 
 sort_buffer_size = 200K
 read_buffer_size = 1M

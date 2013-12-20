@@ -3,7 +3,7 @@
 description     "MySQL Server"
 author          "Mario Limonciello <superm1@ubuntu.com>"
 
-start on (local-filesystems and net-device-up and mounted MOUNTPOINT=<%= data_dir %>)
+start on (local-filesystems and net-device-up and mounted MOUNTPOINT=<%= @data_dir %>)
 stop on starting rc RUNLEVEL=[016]
 
 respawn
