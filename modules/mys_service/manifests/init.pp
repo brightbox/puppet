@@ -37,7 +37,7 @@ class mys_service (
   if $admin_password != '' {
 
     mysql_user { "${admin_username}@%":
-      password_hash => mysql_password(hiera("admin_password")),
+      password_hash => mysql_password($admin_password),
     }
 
     mysql_grant { "${admin_username}@%":
