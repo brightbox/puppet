@@ -15,7 +15,7 @@ class squid_proxy_deb
   file { "allowed-domains":
     require => Package["squid-proxy-deb"],
     notify => Service['squid-proxy-deb'],
-    name => '/etc/squid-deb-proxy/mirror-dstdomain.acl.d/20-puppet-conf'
+    name => '/etc/squid-deb-proxy/mirror-dstdomain.acl.d/20-puppet-conf',
     content => template('squid_proxy_deb/allowed-domains')
   }
 
