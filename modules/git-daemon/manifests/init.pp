@@ -27,7 +27,7 @@ class git-daemon {
     path => '/var/cache/git',
     group => sudo,
     owner => root,
-    mode => '4775',
+    mode => '2775',
     require => Package['git-daemon']
   }
 
