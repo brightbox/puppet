@@ -5,10 +5,9 @@ class mys_service (
 )
 {
 
-  Class['basic_server'] -> Class['mys_service'] -> Class['domtrix']
-
   package { 'mylvmbackup':
-    ensure => installed
+    ensure => installed,
+    before => Class['domtrix']
   }
   
   service { 'mysql':
@@ -16,6 +15,9 @@ class mys_service (
     enable => true,
     require => [
       Class ['percona::server::5_5']
+    ],
+    before => [
+      Class['domtrix']
     ]
   }
 
@@ -40,6 +42,7 @@ class mys_service (
     ssl_key => "/etc/ssl/private/mysql.key",
     ssl_cert => "/etc/ssl/certs/mysql.crt",
     data_dir => $mysql_data_dir,
+    before => Class['domtrix']
   }
 
   if $admin_password != '' {
