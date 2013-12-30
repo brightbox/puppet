@@ -26,7 +26,7 @@ class git-daemon {
       "set GIT_DAEMON_ENABLE true",
       "set GIT_DAEMON_OPTIONS --export-all",
       "set GIT_DAEMON_BASE_PATH ${base_path}",
-      "set GIT_DAEMON_DIRECTORRY ${git_daemon_directory}"
+      "set GIT_DAEMON_DIRECTORY ${git_daemon_directory}"
     ]
   }
 
