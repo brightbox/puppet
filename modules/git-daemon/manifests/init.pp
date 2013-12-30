@@ -10,7 +10,10 @@ class git-daemon {
 
   service { "git-daemon":
     name => "git-daemon",
-    subscribe => Augeas["git-daemon-default"], File["git-dir"]
+    subscribe => [
+      Augeas["git-daemon-default"],
+      File["git-dir"]
+    ]
     ensure => running,
     enable => true
   }
