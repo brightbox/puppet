@@ -13,7 +13,7 @@ class git-daemon {
     subscribe => [
       Augeas["git-daemon-default"],
       File["git-dir"]
-    ]
+    ],
     ensure => running,
     enable => true
   }
