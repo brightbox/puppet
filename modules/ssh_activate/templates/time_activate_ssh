@@ -9,7 +9,7 @@ setup_port() {
   	port_to_check=$((${port_to_check} + 1))
 	[ "${port_to_check}" -ge 1025 ] && { echo "Failed to find a free port"; exit 1; }
   done
-  sed -i "s/^ *Port .*/Port ${port_to_check}/" /etc/ssh/sshd_config
+  sudo sed -i "s/^ *Port .*/Port ${port_to_check}/" /etc/ssh/sshd_config
   echo "Activating ssh on $(grep '^ *Port' /etc/ssh/sshd_config)"
 }
 
