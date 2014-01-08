@@ -36,10 +36,10 @@ class mys_service (
   }
 
   if $admin_password == '' {
-
     $run_state='stopped'
     $enable_state=false
-  } else {
+  }
+  else {
     $run_state='running'
     $enable_state=true
 
@@ -66,7 +66,8 @@ class mys_service (
     ensure => $run_state,
     enable => $enable_state,
     require => [
-      Class ['percona::server::5_5']
+      Class ['percona::server::5_5'],
+      Class ['percona::server::base']
     ],
     before => [
       Class['domtrix']
