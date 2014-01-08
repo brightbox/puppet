@@ -10,16 +10,6 @@ class mys_service (
     before => Class['domtrix']
   }
   
-  service { 'mysql':
-    ensure => running,
-    enable => true,
-    require => [
-      Class ['percona::server::5_5']
-    ],
-    before => [
-      Class['domtrix']
-    ]
-  }
 
   class { "mys_service::data_dir":
     mysql_data_dir => $mysql_data_dir,
@@ -45,7 +35,13 @@ class mys_service (
     before => Class['domtrix']
   }
 
-  if $admin_password != '' {
+  if $admin_password == '' {
+
+    $run_state='stopped'
+    $enable_state=false
+  } else {
+    $run_state='running'
+    $enable_state=true
 
     mysql_user { "${admin_username}@%":
       password_hash => mysql_password($admin_password),
@@ -64,6 +60,17 @@ class mys_service (
       require => Mysql_user["${admin_username}@%"],
     }
     
+  }
+
+  service { 'mysql':
+    ensure => $run_state,
+    enable => $enable_state,
+    require => [
+      Class ['percona::server::5_5']
+    ],
+    before => [
+      Class['domtrix']
+    ]
   }
 
 }
