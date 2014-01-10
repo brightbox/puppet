@@ -21,6 +21,8 @@ class mys_service (
     ]
   }
 
+  Service['mysql'] -> Mysql_user <| |>
+
   class { "mys_service::data_dir":
     mysql_data_dir => $mysql_data_dir,
     before => [
