@@ -5,7 +5,8 @@ class domtrix (
   $queue = hiera('domtrix::queue'),
   $domtrixtype = hiera('domtrix::service'),
   $ftplogin = hiera('domtrix::ftplogin', undef),
-  $ftppassword = hiera('domtrix::ftppassword', undef)
+  $ftppassword = hiera('domtrix::ftppassword', undef),
+  $notify_service = hiera('domtrix::notify_service', true)
 )
 {
   
@@ -24,12 +25,14 @@ class domtrix (
     content => template("domtrix/service-init.erb")
   }
 
-  service { "domtrix-service":
-    subscribe => File[domtrix-config],
-    require => File[domtrix-service-init-script],
-    name => $queue,
-    ensure => running,
-    enable => true
+  if $notify_service {
+    service { "domtrix-service":
+      subscribe => File[domtrix-config],
+      require => File[domtrix-service-init-script],
+      name => $queue,
+      ensure => running,
+      enable => true
+    }
   }
   
 }
