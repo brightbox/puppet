@@ -32,7 +32,7 @@ post-start script
             # should not reach this line
             exit 2
         }
-        statusnow=`status`
+        statusnow=`status mysql`
         if echo $statusnow | grep -q 'stop/' ; then
             exit 0
         elif echo $statusnow | grep -q 'respawn/' ; then
