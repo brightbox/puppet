@@ -6,7 +6,7 @@ class mys_service (
 )
 {
 
-  $mysql_package_version = ${mysql_version} ? {
+  $mysql_package_version = $mysql_version ? {
     '5.6'	=> '5_6',
     default	=> '5_5',
   }
