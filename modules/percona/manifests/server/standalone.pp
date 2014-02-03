@@ -11,6 +11,7 @@ class percona::server::standalone($version = "5.1", $server_id = undef, $max_ser
     root_password => $root_password,
   }
   case $version {
+    "5.6": { include percona::server::5_6 }
     "5.5": { include percona::server::5_5 } 
     "5.0": { include percona::server::5_0  } 
     default:  { include percona::server::5_1 } 

@@ -2,8 +2,14 @@ class mys_service (
   $admin_password = hiera("mys_service::admin_password", ''),
   $admin_username = hiera("mys_service::admin_username", 'admin'),
   $mysql_data_dir = hiera("mys_service::mysql_data_dir", '/var/lib/mysql'),
+  $mysql_version = hiera("mys_service::version", '5.5')
 )
 {
+
+  $mysql_package_version = ${mysql_version} ? {
+    '5.6'	=> '5_6',
+    default	=> '5_5',
+  }
 
   package { 'mylvmbackup':
     ensure => installed,
@@ -14,7 +20,7 @@ class mys_service (
     ensure => running,
     enable => true,
     require => [
-      Class ['percona::server::5_5']
+      Class ["percona::server::${mysql_package_version}"]
     ],
     before => [
       Class['domtrix']
@@ -26,7 +32,7 @@ class mys_service (
   class { "mys_service::data_dir":
     mysql_data_dir => $mysql_data_dir,
     before => [
-      Class['percona::server::5_5'],
+      Class["percona::server::${mysql_package_version}"],
     ]
   }
 
@@ -37,7 +43,7 @@ class mys_service (
     days => 3650,
   }
 
-  class { "percona::server::5_5": }
+  class { "percona::server::${mysql_package_version}": }
 
   class { "percona::server::base":
     ssl => true,
