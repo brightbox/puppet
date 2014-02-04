@@ -14,7 +14,7 @@
 # file and in /etc/cron.daily/apt
 #
 class apt::unattended_upgrades (
-  $origins = ['${distro_id}:${distro_codename}-security'],
+  $origins = ['origin=${distro_id},suite=${distro_codename}-security'],
   $blacklist = [],
   $update = "1",
   $download = "1",
@@ -32,7 +32,7 @@ class apt::unattended_upgrades (
   $backup_interval = "0",
   $backup_level = "3",
   $max_age = "0",
-  $min_age = "0",
+  $min_age = "2",
   $max_size = "0",
   $download_delta = "0",
   $verbose = "0",

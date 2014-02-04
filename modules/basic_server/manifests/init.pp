@@ -6,6 +6,10 @@ class basic_server {
   }
 
   class { "apt::unattended_upgrades":
+    origins => ['origin=${distro_id},suite=${distro_codename}-security',
+      'label=percona,codename=${distro_codename}'],
+    minimal_steps => true,
+    max_size => 512,
   }
 
   class { "ssh_activate":
