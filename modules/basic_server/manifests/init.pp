@@ -1,4 +1,8 @@
-class basic_server {
+class basic_server (
+  $upgrade_minute = hiera("basic_server::upgrade_minute", fqdn_rand(30)),
+  $upgrade_hour = hiera("basic_server::upgrade_hour", 6),
+  $upgrade_weekday = hiera("basic_server::upgrade_weekday", 'Sunday'),
+) {
   
   class { "apt":
     refreshonly => false,
@@ -10,6 +14,17 @@ class basic_server {
       'label=percona,codename=${distro_codename}'],
     minimal_steps => true,
     max_size => 512,
+    upgrade => 0,
+  }
+
+  cron { "unattended_upgrade":
+    command => "/usr/bin/unattended-upgrade",
+    ensure => present,
+    hour => $upgrade_hour,
+    minute => $upgrade_minute,
+    weekday => $upgrade_day,
+    user => 'root',
+    require => Class["apt::unattended_upgrades"],
   }
 
   class { "ssh_activate":
