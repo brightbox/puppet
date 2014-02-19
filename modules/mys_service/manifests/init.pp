@@ -12,7 +12,7 @@ class mys_service (
     default	=> '5_5',
   }
 
-  $mysql_tmp_dir = "${mysql_data_dir}/${mysql_tmp_dir}"
+  $full_mysql_tmp_dir = "${mysql_data_dir}/${mysql_tmp_dir}"
 
   package { 'mylvmbackup':
     ensure => installed,
@@ -34,7 +34,7 @@ class mys_service (
 
   class { "mys_service::data_dir":
     mysql_data_dir => $mysql_data_dir,
-    mysql_tmp_dir => $mysql_tmp_dir,
+    mysql_tmp_dir => $full_mysql_tmp_dir,
     before => [
       Class["percona::server::${mysql_package_version}"],
     ]
@@ -54,7 +54,7 @@ class mys_service (
     ssl_key => "/etc/ssl/private/mysql.key",
     ssl_cert => "/etc/ssl/certs/mysql.crt",
     data_dir => $mysql_data_dir,
-    tmp_dir => $mysql_tmp_dir,
+    tmp_dir => $full_mysql_tmp_dir,
     before => Class['domtrix']
   }
 
