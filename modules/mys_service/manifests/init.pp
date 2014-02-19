@@ -2,6 +2,7 @@ class mys_service (
   $admin_password = hiera("mys_service::admin_password", ''),
   $admin_username = hiera("mys_service::admin_username", 'admin'),
   $mysql_data_dir = hiera("mys_service::mysql_data_dir", '/var/lib/mysql'),
+  $mysql_tmp_dir = hiera("mys_service::mysql_tmp_dir", "${mysql_data_dir}/.#tmp"),
   $mysql_version = hiera("mys_service::version", '5.5')
 )
 {
@@ -31,6 +32,7 @@ class mys_service (
 
   class { "mys_service::data_dir":
     mysql_data_dir => $mysql_data_dir,
+    mysql_tmp_dir => $mysql_tmp_dir,
     before => [
       Class["percona::server::${mysql_package_version}"],
     ]
@@ -50,6 +52,7 @@ class mys_service (
     ssl_key => "/etc/ssl/private/mysql.key",
     ssl_cert => "/etc/ssl/certs/mysql.crt",
     data_dir => $mysql_data_dir,
+    tmp_dir => $mysql_tmp_dir,
     before => Class['domtrix']
   }
 

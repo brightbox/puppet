@@ -1,5 +1,6 @@
 class mys_service::data_dir(
-  $mysql_data_dir
+  $mysql_data_dir,
+  $mysql_tmp_dir
 ) {
 
   $data_device='/dev/mysql/data'
@@ -37,6 +38,11 @@ class mys_service::data_dir(
     ensure => directory,
   }
 
+  file { "mysql_tmp_dir":
+    name => $mysql_tmp_dir,
+    ensure => directory,
+  }
+
   exec { "create-mysql-partition":
     require => [
       Package['lvm2'],
@@ -52,6 +58,9 @@ class mys_service::data_dir(
     require => [
       Exec['create-mysql-partition'],
       File['data_dir_mount_point']
+    ],
+    before => [
+      File['mysql_tmp_dir']
     ],
     name => $mysql_data_dir,
     atboot => true,
