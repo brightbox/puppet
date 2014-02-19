@@ -26,7 +26,7 @@ class percona::server::base(
   $ssl_cert = "/etc/ssl/ssl-cert-snakeoil.pem",
   $ssl_key = "/etc/ssl/private/ssl-cert-snakeoil.key",
   $data_dir = $percona::params::data_dir,
-  $tmp_dir = $percona::params::tmp_dir,
+  $tmp_dir = "${percona::params::data_dir}/.#tmp",
   $innodb_buffer_pool_size = $percona::params::innodb_buffer_pool_size,
   $key_buffer_size = $percona::params::key_buffer_size
 ) inherits percona::params {

@@ -2,7 +2,7 @@ class mys_service (
   $admin_password = hiera("mys_service::admin_password", ''),
   $admin_username = hiera("mys_service::admin_username", 'admin'),
   $mysql_data_dir = hiera("mys_service::mysql_data_dir", '/var/lib/mysql'),
-  $mysql_tmp_dir = hiera("mys_service::mysql_tmp_dir", "${mysql_data_dir}/.#tmp"),
+  $mysql_tmp_dir = hiera("mys_service::mysql_tmp_dir", ".#tmp"),
   $mysql_version = hiera("mys_service::version", '5.5')
 )
 {
@@ -11,6 +11,8 @@ class mys_service (
     '5.6'	=> '5_6',
     default	=> '5_5',
   }
+
+  $mysql_tmp_dir = "${mysql_data_dir}/${mysql_tmp_dir}"
 
   package { 'mylvmbackup':
     ensure => installed,
