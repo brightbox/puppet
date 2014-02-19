@@ -41,9 +41,9 @@ class mys_service::data_dir(
   file { "mysql_tmp_dir":
     name => $mysql_tmp_dir,
     ensure => directory,
-    mode => 01770,
-    owner => mysql,
-    group => mysql
+    mode => 01777,
+    owner => root,
+    group => root 
   }
 
   exec { "create-mysql-partition":
