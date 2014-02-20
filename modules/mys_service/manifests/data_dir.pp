@@ -46,6 +46,17 @@ class mys_service::data_dir(
     group => root 
   }
 
+  # Cache dir tagging spec: http://www.brynosaurus.com/cachedir/spec.html
+  # This excludes the directory contents from backup
+  file { "mark_tmp_as_cache":
+    require => File['mysql_tmp_dir'],
+    name => '${mysql_tmp_dir}/CACHEDIR.TAG',
+    mode => 0644,
+    owner => root,
+    group => root,
+    content => 'Signature: 8a477f597d28d172789f06886806bc55'
+  }
+
   exec { "create-mysql-partition":
     require => [
       Package['lvm2'],
