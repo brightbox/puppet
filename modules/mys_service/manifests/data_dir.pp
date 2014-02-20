@@ -50,7 +50,7 @@ class mys_service::data_dir(
   # This excludes the directory contents from backup
   file { "mark_tmp_as_cache":
     require => File['mysql_tmp_dir'],
-    name => '${mysql_tmp_dir}/CACHEDIR.TAG',
+    name => "${mysql_tmp_dir}/CACHEDIR.TAG",
     mode => 0644,
     owner => root,
     group => root,
