@@ -9,6 +9,8 @@ stop on starting rc RUNLEVEL=[016]
 respawn
 respawn limit 2 5
 
+oom score -999
+
 env HOME=/etc/mysql
 umask 007
 
