@@ -21,6 +21,7 @@ class mys_service (
 
   file { 'mylvmbackup_config':
     require => Package['mylvmbackup'],
+    name => '/etc/mylvmbackup.conf',
     mode => 0600,
     owner => root,
     group => root,
