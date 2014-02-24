@@ -18,6 +18,14 @@ class mys_service (
     ensure => installed,
     before => Class['domtrix']
   }
+
+  file { 'mylvmbackup_config':
+    require => Package['mylvmbackup'],
+    mode => 0600,
+    owner => root,
+    group => root,
+    content => template('mys_service/mylvmbackup.conf'),
+  }
   
   service { 'mysql':
     ensure => running,
