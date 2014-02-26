@@ -6,7 +6,7 @@ class basic_server (
   
   class { "apt":
     refreshonly => false,
-    autoupgrade => true
+    autoupgrade => false,
   }
 
   class { "apt::unattended_upgrades":
