@@ -11,7 +11,7 @@ class basic_server (
 
   class { "apt::unattended_upgrades":
     origins => ['origin=${distro_id},suite=${distro_codename}-security',
-      'label=percona,codename=${distro_codename}'],
+      'label=percona,component=main'],
     minimal_steps => true,
     max_size => 512,
     upgrade => 0,
