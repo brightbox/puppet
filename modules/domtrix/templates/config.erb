@@ -12,3 +12,9 @@ service_type: <%= @domtrixtype %>
 ftp_login: <%= @ftplogin %>
 ftp_password: <%= @ftppassword %>
 <% end %>
+
+# Dummy cache dir entries to allow uri-cp to work
+cache_dir: <%= @cache_dir %>
+snapshot_cache_dir: <%= @snapshot_cache_dir %>
+cache_max_blocks: <%= @cache_max_blocks %>
+upload_segment_size: <%= @upload_segment_size %>
