@@ -22,7 +22,7 @@ class basic_server (
     ensure => present,
     hour => $upgrade_hour,
     minute => $upgrade_minute,
-    weekday => $upgrade_day,
+    weekday => $upgrade_weekday,
     user => 'root',
     require => Class["apt::unattended_upgrades"],
   }
