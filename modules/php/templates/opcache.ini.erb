@@ -1,0 +1,8 @@
+; Managed by Puppet
+; the zend extension load is handled by the package config
+; adding it here as well stops it working completely!
+[opcache]
+opcache.enable=<%= @enable ? 1 : 0 %>
+opcache.memory_consumption=<%= @opcache_size %>
+opcache.max_accelerated_files=<%= @max_files %>
+opcache.revalidate_freq=<%= @revalidate_freq %>

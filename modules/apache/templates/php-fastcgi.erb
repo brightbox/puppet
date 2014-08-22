@@ -4,7 +4,7 @@
   FcgidCmdOptions /usr/bin/php5-cgi \
   InitialEnv PHP_FCGI_MAX_REQUESTS=2000 \
   InitialEnv PHP_FCGI_CHILDREN=0 \
-  MaxProcesses 3 \
+  MaxProcesses <%= max_processes %> \
   IOTimeout 90 \
   IdleTimeout 100 \
   MaxRequestsPerProcess 1900
