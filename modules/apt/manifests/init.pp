@@ -1,4 +1,7 @@
 class apt {
+  package { "python-software-properties":
+    ensure => installed
+  }
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
     schedule => daily,
@@ -57,6 +60,22 @@ define apt::ppa($ppa = "") {
     notify => Exec["apt-update"],
   }
 }
+
+# $name is arbitrary. attribute "repository" should be the repository name, such as
+# "ppa:brightbox/ruby-ng" (this is due to a bug in puppet with resources
+# with slashes in them)
+# this is a more advanced version of apt:ppa, which supports the (much less common)
+# cloud-archive: type
+define apt::repository($repository = "") {
+  $repository_name = apt_repository_name($repository)
+  exec { "apt-add-repository-$repository_name":
+    command => "/usr/bin/apt-add-repository '$repository'",
+    creates => "/etc/apt/sources.list.d/${repository_name}.list",
+    unless  => "/bin/egrep '^${repository}' /etc/apt/sources.list",
+    notify  => Exec[apt-update],
+  }
+}
+
 
 # id should be the 8 character hex string that represents the key (is
 # actually the last 8 characters of the fingeprint)

@@ -7,7 +7,35 @@ describe 'apt::ppa', :type => :define do
   it { should contain_exec('apt-add-repository-brightbox-ruby-ng3_3').
    with( :creates => '/etc/apt/sources.list.d/brightbox-ruby-ng3_3-precise.list' )  
   }
+  describe 'node.js ppa' do
+    let(:title) { 'nodejs' }
+    let(:params) { { :ppa => 'chris-lea/node.js' } }
+    let(:facts) { { :lsbdistcodename => 'precise' } }
+    it { should contain_exec('apt-add-repository-chris-lea-node_js').
+        with( :creates => '/etc/apt/sources.list.d/chris-lea-node_js-precise.list' )  
+    }
+  end
 end
+
+describe 'apt::repository', :type => :define do
+  describe 'cloud-archive' do 
+    let(:title) { 'cloud-archive:havana' }
+    let(:params) { { :repository => 'cloud-archive:havana' } }
+    let(:facts) { { :lsbdistcodename => 'precise' } }
+    it { should contain_exec('apt-add-repository-cloudarchive-havana').
+        with( :creates => '/etc/apt/sources.list.d/cloudarchive-havana.list' )  
+    }
+  end
+  describe 'ppa' do 
+    let(:title) { 'brightbox-ruby-ng' }
+    let(:params) { { :repository => 'ppa:brightbox/ruby-ng3.3' } }
+    let(:facts) { { :lsbdistcodename => 'precise' } }
+    it { should contain_exec('apt-add-repository-brightbox-ruby-ng3_3-precise').
+        with( :creates => '/etc/apt/sources.list.d/brightbox-ruby-ng3_3-precise.list' )  
+    }
+  end
+end
+
 
 describe 'apt::localpackage', :type => :define do
   let(:title) { 'elasticsearch' }
