@@ -18,7 +18,11 @@ class elasticsearch(
   $minimum_master_nodes = hiera("elasticsearch.minimum_master_nodes", 1),
   $deburl = hiera("elasticsearch.deburl", false),
   $master = hiera("elasticsearch.master", true),
-  $data = hiera("elasticsearch.data", true)
+  $data = hiera("elasticsearch.data", true),
+  $ping_timeout = hiera("elasticsearch.ping_timeout", "30s"),
+  $expected_nodes = hiera("elasticsearch.expected_nodes", false),
+  $recover_after_nodes = hiera("elasticsearch.recover_after_nodes", false),
+  $recover_after_time = hiera("elasticsearch.recover_after_time", false)
 ) {
   package { "default-jre-headless":
     ensure => installed
