@@ -10,7 +10,7 @@ class domtrix (
   $cache_dir = hiera('domtrix::cache_dir', '/tmp'),
   $snapshot_cache_dir = hiera('domtrix::snapshot_cache_dir', '/tmp'),
   $cache_max_blocks = hiera('domtrix::cache_max_blocks', 4096),
-  $upload_segment_size = hiera('domtrix::upload_segment_size', 104857600)
+  $upload_segment_size = hiera('domtrix::upload_segment_size', 1073741824)
 )
 {
   
