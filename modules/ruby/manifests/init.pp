@@ -96,6 +96,7 @@ class ruby::ruby19($default = true)  {
 
   exec { "bundle1.9-alternatives":
     path    => ['/usr/sbin', '/usr/bin'],
+    unless => '/usr/bin/test $(readlink /etc/alternatives/bundle) == "/usr/local/bin/bundle1.9.1"',
     command => "update-alternatives --install /usr/bin/bundle bundle /usr/local/bin/bundle1.9.1 2",
     require => Exec["ruby1.9-install-bundler"]
   }
@@ -103,6 +104,7 @@ class ruby::ruby19($default = true)  {
   if $default {
     exec { "update-alternatives-ruby1.9.1":
       path    => ['/usr/sbin', '/usr/bin'],
+      unless => '/usr/bin/test $(readlink /etc/alternatives/ruby) == "/usr/bin/ruby1.9.1"',
       command => "update-alternatives --set ruby /usr/bin/ruby1.9.1 && update-alternatives --set gem /usr/bin/gem1.9.1 && update-alternatives --set bundle /usr/local/bin/bundle1.9.1",
       require => [Package["ruby"], Package["ruby1.9.1"], Exec["ruby1.9-install-bundler"]]
     }
@@ -123,6 +125,9 @@ class ruby::ruby21($default = true)  {
   package { "git-core":
     ensure => installed
   }
+  Package["ruby2.1"] -> Package["bundler"]
+  Exec["ruby2.1-install-bundler"] -> Package["bundler"]
+
   package { ["ruby", "ruby-dev", "rake"]:
     ensure => installed
   }
