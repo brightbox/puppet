@@ -1,0 +1,56 @@
+<VirtualHost *:<%= port %>>
+  SSLEngine On
+  SSLCertificateFile /etc/ssl/certs/<%= domain %>.crt
+  SSLCertificateKeyFile /etc/ssl/private/<%= domain %>.key
+  <% unless certificate_chain_file.empty? %>
+  SSLCertificateChainFile <%= certificate_chain_file %>
+  <% end %>
+  SSLProtocol all -SSLv2
+  # kEDH ciphers are slow due to pfs.
+  SSLCipherSuite SSLv3:+TLSv1:!kEDH
+  
+  ServerName <%= domain %>
+  DocumentRoot <%= rails_root %>/public
+
+  ErrorLog /var/log/web/<%= name %>.err
+  CustomLog /var/log/web/<%= name %>.log combined
+
+  RailsEnv production
+  RackEnv production
+
+  Header always unset "X-Powered-By"
+
+  <Directory "<%= rails_root %>/public">
+    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+  </Directory>
+
+  <Directory "<%= rails_root %>/public/system">
+    Header set Cache-Control "no-cache"
+  </Directory>
+
+  # Rails specific rewrite rules
+  RewriteEngine On
+
+  # Set cache-control header for static assets
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} -f
+  RewriteRule "^.*$" "$0" [L,E=CACHE:True]
+  Header onsuccess set "Cache-Control" "max-age=315360000" env=CACHE
+  
+  # Error documents
+	ErrorDocument 503 /system/maintenance.html
+
+  # Check for maintenance file and redirect all requests
+  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+  RewriteCond %{SCRIPT_FILENAME} !^/system
+  RewriteRule ^.*$ /system/maintenance.html [R=503,L]
+
+  # Deflate
+  AddOutputFilterByType DEFLATE text/plain text/html text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/json
+  BrowserMatch ^Mozilla/4 gzip-only-text/html
+  BrowserMatch ^Mozilla/4.0[678] no-gzip
+  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+</VirtualHost>
