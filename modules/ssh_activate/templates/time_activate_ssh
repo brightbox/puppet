@@ -1,0 +1,35 @@
+#!/bin/sh
+trap '' INT QUIT TERM HUP USR1 USR2 PIPE
+
+setup_port() {
+  ports_in_use=$(ss -n -t -l)
+  port_to_check=${1:-22}
+  while echo ${ports_in_use} | grep -q ":${port_to_check}[ 	]"
+  do
+  	port_to_check=$((${port_to_check} + 1))
+	[ "${port_to_check}" -ge 1025 ] && { echo "Failed to find a free port"; exit 1; }
+  done
+  sudo sed -i "s/^ *Port .*/Port ${port_to_check}/" /etc/ssh/sshd_config
+  echo "Activating ssh on $(grep '^ *Port' /etc/ssh/sshd_config)"
+}
+
+setup_switch_off_job() {
+  echo -n "ssh will be deactivated at "
+  at -v now + 2 minutes <<EOF 2>&1 | head -1
+sudo touch /etc/ssh/sshd_not_to_be_run
+sudo restart ssh
+EOF
+}
+
+start_port=${1:-22}
+
+if [ -f /etc/ssh/sshd_not_to_be_run ]
+then
+	setup_port ${start_port}
+	setup_switch_off_job
+	sudo rm -f /etc/ssh/sshd_not_to_be_run
+	sudo start ssh
+else
+	echo -n "ssh is active until "
+	atq | sed 's/^[0-9]*\t*\(.*\) a ssh$/\1/'
+fi
