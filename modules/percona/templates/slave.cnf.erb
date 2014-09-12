@@ -1,0 +1,7 @@
+[mysqld]
+<% if slave_skip_errors %>
+slave-skip-errors = <%= slave_skip_errors %>
+<% end %>
+
+master-retry-count=0
+slave-net-timeout=300

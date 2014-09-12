@@ -1,0 +1,9 @@
+---
+:backends:
+  - yaml
+:hierarchy:
+  - runtime
+  - initial
+  - default
+:yaml:
+  :datadir: /etc/brightbox/hiera/

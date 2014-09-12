@@ -1,0 +1,20 @@
+# Managed by Puppet
+
+# Username and password to log onto Active MQ
+mq_login: <%= @mquser %>
+mq_password: <%= @mqpassword %>
+mq_hosts: <%= @mqhosts %>
+
+service_type: <%= @domtrixtype %>
+
+<% if @ftplogin %> 
+# Username and password to log onto the central FTP library.
+ftp_login: <%= @ftplogin %>
+ftp_password: <%= @ftppassword %>
+<% end %>
+
+# Dummy cache dir entries to allow uri-cp to work
+cache_dir: <%= @cache_dir %>
+snapshot_cache_dir: <%= @snapshot_cache_dir %>
+cache_max_blocks: <%= @cache_max_blocks %>
+upload_segment_size: <%= @upload_segment_size %>

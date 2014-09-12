@@ -1,0 +1,9 @@
+# Managed by Puppet
+[mysqld]
+<% if @ssl == true %>
+<% if @ssl_ca %>
+ssl-ca = <%= @ssl_ca %>
+<% end %>
+ssl-cert = <%= @ssl_cert %>
+ssl-key = <%= @ssl_key %>
+<% end %>

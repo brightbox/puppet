@@ -1,0 +1,17 @@
+description	"Domtrix Service Configurator"
+
+start on (stopped rc RUNLEVEL=[2345] and stopped cloud-config)
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+umask 022
+
+env MACHINE=<%= @queue %>
+#env DEBUG=1
+
+exec /usr/sbin/domtrix-service-worker
+
+post-stop script
+  test -r /etc/domtrix/config.yml || sleep 5
+end script
