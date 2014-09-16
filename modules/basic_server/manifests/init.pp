@@ -3,28 +3,11 @@ class basic_server (
   $upgrade_hour = hiera("basic_server::upgrade_hour", 6),
   $upgrade_weekday = hiera("basic_server::upgrade_weekday", 'Sunday'),
 ) {
-  
-  class { "apt":
-    refreshonly => false,
-    autoupgrade => false,
-  }
-
-  class { "apt::unattended_upgrades":
-    origins => ['origin=${distro_id},suite=${distro_codename}-security',
-      'label=percona,component=main'],
-    minimal_steps => true,
-    max_size => 512,
-    upgrade => 0,
-  }
-
-  cron { "unattended_upgrade":
-    command => "/usr/bin/unattended-upgrade",
-    ensure => present,
-    hour => $upgrade_hour,
-    minute => $upgrade_minute,
-    weekday => $upgrade_weekday,
-    user => 'root',
-    require => Class["apt::unattended_upgrades"],
+ 
+  class { "basic_server::minimal":
+    upgrade_minute => $upgrade_minute,
+    upgrade_hour => $upgrade_hour,
+    upgrade_weekday => $upgrade_weekday,
   }
 
   class { "ssh_activate":
@@ -33,19 +16,6 @@ class basic_server (
   swap::file { "swap":
     name => '/.swapfile',
     size => 512
-  }
-
-  package { "language-pack-en":
-    ensure => installed
-  }
-
-  package { "whoopsie":
-    ensure => purged
-  }
-
-  service { "puppet":
-    ensure => stopped,
-    enable => false
   }
 
 }

@@ -2,13 +2,13 @@ class apt (
   $refreshonly = hiera("apt.refreshonly", true),
   $autoupgrade = hiera("apt.autoupgrade", false)
 ) {
+
   package { "python-software-properties":
     ensure => installed
   }
 
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
-#    schedule => daily,
     refreshonly => $refreshonly
   }
 
