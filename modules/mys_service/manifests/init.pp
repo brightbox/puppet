@@ -19,6 +19,17 @@ class mys_service (
     before => Class['domtrix']
   }
 
+  package { 'uricp':
+    ensure => installed,
+    provider => 'gem',
+    before => Class['domtrix']
+  }
+
+  package { 'liblz4-tool':
+    ensure => installed,
+    before => Class['domtrix']
+  }
+
   file { 'mylvmbackup_config':
     require => Package['mylvmbackup'],
     name => '/etc/mylvmbackup.conf',
