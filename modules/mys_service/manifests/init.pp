@@ -26,7 +26,7 @@ class mys_service (
   }
 
   package { ['ruby-dev', 'make']:
-    ensure => installed
+    ensure => installed,
     before => Package['uricp']
   }
 
