@@ -25,6 +25,11 @@ class mys_service (
     before => Class['domtrix']
   }
 
+  package { ['ruby-dev', 'make']:
+    ensure => installed
+    before => Package['uricp']
+  }
+
   package { 'liblz4-tool':
     ensure => installed,
     before => Class['domtrix']
