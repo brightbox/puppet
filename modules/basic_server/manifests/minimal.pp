@@ -17,6 +17,11 @@ class basic_server::minimal (
     upgrade => 0,
   }
 
+  file {
+    '/etc/apt/apt.conf.d/10retainconfigs':
+      content => file('basic_server/10retainconfigs');
+  }
+
   cron { "unattended_upgrade":
     command => "/usr/bin/unattended-upgrade",
     ensure => present,
