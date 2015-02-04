@@ -29,6 +29,7 @@ class basic_server::minimal (
     minute => $upgrade_minute,
     weekday => $upgrade_weekday,
     user => 'root',
+    environment => 'PATH=/usr/sbin:/usr/bin:/sbin:/bin',
     require => Class["apt::unattended_upgrades"],
   }
 
