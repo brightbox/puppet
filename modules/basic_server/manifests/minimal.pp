@@ -37,8 +37,13 @@ class basic_server::minimal (
     ensure => installed
   }
 
-  package { "whoopsie":
-    ensure => purged
+  package { ["whoopsie", "mlocate", "man-db", "apt-xapian-index"]:
+    ensure => purged,
+    after => File["/var/lib/man-db/auto-update"]
+  }
+
+  file { "/var/lib/man-db/auto-update":
+    ensure => absent
   }
 
   service { "puppet":
