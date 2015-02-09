@@ -39,7 +39,7 @@ class basic_server::minimal (
 
   package { ["whoopsie", "mlocate", "man-db", "apt-xapian-index"]:
     ensure => purged,
-    after => File["/var/lib/man-db/auto-update"]
+    require => File["/var/lib/man-db/auto-update"]
   }
 
   file { "/var/lib/man-db/auto-update":
