@@ -1,1 +1,2 @@
 command[check_mysql]=/usr/lib/nagios/plugins/check_mysql -u status --check-slave -w <%= slave_warning %> -c <%= slave_critical %>
+command[check_mysql_noslave]=/usr/lib/nagios/plugins/check_mysql -u status
