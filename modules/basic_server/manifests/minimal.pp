@@ -37,7 +37,7 @@ class basic_server::minimal (
     ensure => installed
   }
 
-  package { ["whoopsie", "mlocate", "man-db", "apt-xapian-index"]:
+  package { ["update-notifier-common", "whoopsie", "mlocate", "man-db", "apt-xapian-index"]:
     ensure => purged,
     require => File["/var/lib/man-db/auto-update"]
   }
