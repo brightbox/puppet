@@ -46,4 +46,11 @@ define swap::file($size = 1024) {
     subscribe   => File['/etc/sysctl.conf']
   }
 
+  file { '/etc/sysctl.conf':
+    ensure => 'present',
+    owner  => 'root',
+    group  => '0',
+    mode   => '0644',
+  }
+
 }
