@@ -1,37 +1,4 @@
-task :default => [:test, :parse]
-
-def old_puppet?
-  `puppet -V` =~ /^2.[456]/
-end
-
-desc "Remove the puppetforce dpkg files"
-task :clean do
-  Dir["modules/*/pkg"].each do |d|
-    puts d
-    rm_rf d
-  end
-end
-
-desc "Run the test suite"
-task :test do
-  pcommand = old_puppet? ? "puppet" : "puppet apply"
-	Dir["manifests/tests/test_*"].each do |test_file|
-		sh "#{pcommand} --noop --modulepath modules/ #{test_file}"
-	end
-end
-
-desc "Parse any .pp files we can find"
-task :parse => :clean do
-  pcommand = old_puppet? ? "puppet --parseonly --modulepath modules/" : "puppet parser validate --modulepath modules/"
-
-  files = Dir["manifests/**/*.pp", "modules/**/*.pp"]
-  if old_puppet?
-    files.each { |f| sh "#{pcommand} #{f}" }
-  else
-    sh "#{pcommand} #{files.join(' ')}"
-  end
-
-end
+task :default => [:spec]
 
 desc "Run lint check on puppet manifests"
 task :lint => :clean do
@@ -48,10 +15,19 @@ end
 
 require 'rspec/core/rake_task'
 
-desc "Run specs check on puppet manifests"
-RSpec::Core::RakeTask.new(:spec) do |t|
+desc "Run module specs check on puppet manifests"
+RSpec::Core::RakeTask.new("spec:modules") do |t|
    t.pattern = './modules/**/*_spec.rb' # don't need this, it's default
    t.verbose = true
    t.rspec_opts = "--format documentation --color"
-    # Put spec opts in a file named .rspec in root
 end
+
+desc "Run full host specs"
+RSpec::Core::RakeTask.new("spec:hosts") do |t|
+  t.pattern = "spec/**/*_spec.rb"
+  t.verbose = true
+  t.rspec_opts = "--format documentation --color"
+end
+
+
+task :spec => ["spec:hosts"]

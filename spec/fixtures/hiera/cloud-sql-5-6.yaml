@@ -1,0 +1,16 @@
+---
+classes:
+- domtrix
+- mys_service
+domtrix::mquser: mqu
+domtrix::mqpassword: mqpw
+domtrix::mqhosts: 1.1.1.1,2.2.2.2
+domtrix::queue: DB.dbs-aaaaa.srv-bbbbb
+domtrix::service: mys
+mys_service::version: 5.6
+mys_service::admin_password: adminpw
+domtrix::ftplogin: library
+domtrix::ftppassword: librarypw
+basic_server::upgrade_hour: 0
+basic_server::upgrade_weekday: 3
+
