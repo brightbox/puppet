@@ -31,26 +31,4 @@ define swap::file($size = 1024) {
     require => Exec["mkswap-for-$name"]
   }
 
-  augeas { "sysctl-for-$name":
-    context => "/files/etc/sysctl.conf",
-    changes => [
-      "set vm.swappiness = 10",
-    ],
-    notify => Exec["sysctl-reload-for-$name"]
-  }
-
-  exec { "sysctl-reload-for-$name":
-    path        => ['/sbin'],
-    command     => 'sysctl -p /etc/sysctl.conf',
-    refreshonly => true,
-    subscribe   => File['/etc/sysctl.conf']
-  }
-
-  file { '/etc/sysctl.conf':
-    ensure => 'present',
-    owner  => 'root',
-    group  => '0',
-    mode   => '0644',
-  }
-
 }

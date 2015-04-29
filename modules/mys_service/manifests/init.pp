@@ -7,6 +7,10 @@ class mys_service (
 )
 {
 
+  sysctl::config { "swappiness":
+    content => "vm.swappiness = 10"
+  }
+
   $mysql_package_version = $mysql_version ? {
     '5.6'	=> '5_6',
     default	=> '5_5',
