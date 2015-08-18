@@ -44,10 +44,11 @@ sync_binlog = 1
 innodb_additional_mem_pool_size = 20M
 innodb_log_buffer_size = 4M
 innodb_log_file_size = 256M
-innodb_flush_log_at_trx_commit = 1
 innodb_open_files=4000
 table_open_cache=4000
+innodb_flush_log_at_trx_commit = 1
 innodb_flush_method=O_DIRECT
+innodb_io_capacity=30000
 
 innodb_file_per_table
 
