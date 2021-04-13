@@ -2,7 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.2.4)
-    facter (1.7.3)
+    facter (2.5.7)
     hiera (1.1.2)
       json_pure
     hiera-puppet (1.0.0)
@@ -11,8 +11,10 @@ GEM
     metaclass (0.0.1)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
-    puppet (2.7.23)
-      facter (~> 1.5)
+    puppet (3.8.7)
+      facter (> 1.6, < 3)
+      hiera (~> 1.0)
+      json_pure
     puppet-lint (0.1.13)
     puppetlabs_spec_helper (0.4.1)
       mocha (>= 0.10.5)
@@ -36,7 +38,7 @@ PLATFORMS
 
 DEPENDENCIES
   hiera-puppet
-  puppet (~> 2.7.11)
+  puppet (~> 3.8.7)
   puppet-lint
   puppetlabs_spec_helper
   rake
